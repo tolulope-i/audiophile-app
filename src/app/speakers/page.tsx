@@ -1,4 +1,3 @@
-// app/headphones/page.tsx
 import React from 'react';
 import ProductCard from '../../components/ProductCard';
 import { products } from '../../lib/products';

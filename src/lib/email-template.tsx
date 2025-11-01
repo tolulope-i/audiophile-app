@@ -1,63 +1,123 @@
-export function generateOrderEmailTemplate(order: any) {
+// src/lib/email-templates.ts
+export const generateOrderConfirmationEmail = (order: any) => {
   return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Confirmation</title>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: #000; color: #fff; padding: 20px; text-align: center; }
-    .content { background: #f9f9f9; padding: 30px; }
-    .order-summary { background: #fff; border-radius: 8px; padding: 20px; margin: 20px 0; }
-    .total { border-top: 2px solid #ddd; padding-top: 10px; margin-top: 10px; }
-    .footer { text-align: center; padding: 20px; color: #666; font-size: 14px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>AUDIOPHILE</h1>
-    </div>
-    
-    <div class="content">
-      <h2>Hi ${order.customer.name},</h2>
-      <p>Thank you for your order! We're getting it ready to be shipped.</p>
-      
-      <div class="order-summary">
-        <h3>Order #${order.orderId}</h3>
-        ${order.items.map((item: any) => `
-          <div style="display: flex; justify-content: space-between; margin: 10px 0;">
-            <span>${item.name} x${item.quantity}</span>
-            <span>$${item.price * item.quantity}</span>
-          </div>
-        `).join('')}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Order Confirmation</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f5f5f5;
+          color: #333;
+          margin: 0;
+          padding: 20px;
+        }
+        .container {
+          max-width: 600px;
+          background: #ffffff;
+          border-radius: 10px;
+          padding: 30px;
+          margin: 0 auto;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+          color: #d87d4a;
+          margin-top: 0;
+        }
+        table {
+          width: 100%;
+          margin-top: 20px;
+          border-collapse: collapse;
+        }
+        th, td {
+          border-bottom: 1px solid #eee;
+          padding: 12px;
+          text-align: left;
+        }
+        th {
+          background-color: #f8f8f8;
+          font-weight: bold;
+        }
+        .footer {
+          margin-top: 30px;
+          font-size: 14px;
+          color: #666;
+          border-top: 1px solid #eee;
+          padding-top: 20px;
+        }
+        .cta {
+          display: inline-block;
+          margin-top: 20px;
+          background: #d87d4a;
+          color: #fff;
+          text-decoration: none;
+          padding: 12px 24px;
+          border-radius: 6px;
+          font-weight: bold;
+        }
+        .totals {
+          background: #f8f8f8;
+          padding: 15px;
+          border-radius: 6px;
+          margin-top: 20px;
+        }
+        .address {
+          background: #f8f8f8;
+          padding: 15px;
+          border-radius: 6px;
+          margin: 15px 0;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Thank you for your order, ${order.customerName}!</h1>
+        <p>Your order ID is <strong>${order.id}</strong></p>
         
-        <div class="total">
-          <div style="display: flex; justify-content: space-between;">
-            <strong>Grand Total</strong>
-            <strong>$${order.totals.grandTotal}</strong>
-          </div>
+        <h3>Order Summary</h3>
+        <table>
+          <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+          ${order.items
+            .map(
+              (item: any) =>
+                `<tr>
+                  <td>${item.name}</td>
+                  <td>${item.quantity}</td>
+                  <td>$${item.price}</td>
+                  <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                </tr>`
+            )
+            .join('')}
+        </table>
+
+        <div class="totals">
+          <p><strong>Subtotal:</strong> $${order.totals?.subtotal || order.total}</p>
+          <p><strong>Shipping:</strong> $${order.totals?.shipping || '0.00'}</p>
+          <p><strong>Tax:</strong> $${order.totals?.taxes || '0.00'}</p>
+          <p><strong>Total:</strong> $${order.totals?.grandTotal || order.total}</p>
+        </div>
+
+        ${order.shipping ? `
+        <h3>Shipping Address</h3>
+        <div class="address">
+          <p>
+            ${order.shipping.address}<br>
+            ${order.shipping.city}, ${order.shipping.zip}
+          </p>
+        </div>
+        ` : ''}
+
+        <a href="https://your-website.com/orders/${order.id}" class="cta">View Your Order</a>
+
+        <div class="footer">
+          <p>We'll send another email once your order ships.</p>
+          <p>Need help? Contact our support team at support@audiophile.com</p>
         </div>
       </div>
-      
-      <h3>Shipping Address</h3>
-      <p>
-        ${order.customer.name}<br>
-        ${order.shipping.address}<br>
-        ${order.shipping.city}, ${order.shipping.zipCode}<br>
-        ${order.shipping.country}
-      </p>
-    </div>
-    
-    <div class="footer">
-      <p>Need help? Contact us at support@audiophile.com</p>
-      <p>&copy; 2024 Audiophile. All rights reserved.</p>
-    </div>
-  </div>
-</body>
-</html>
-  `
-}
+    </body>
+  </html>
+  `;
+};
