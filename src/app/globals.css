@@ -72,6 +72,16 @@ h6 {
   text-transform: uppercase;
   color: var(--primary);
 }
+.category {
+  font-family: var(--font-manrope);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  color: var(--primary) !important;
+
+}
 .subtitle {
   font-family: var(--font-manrope);
   font-weight: 700;
@@ -719,4 +729,11 @@ footer {
   background-color: var(--nav-bg);
   color: var(--white);
   padding: 60px 24px;
+}
+
+.product-box{
+  background-color: var(--bg-light);
+  border-radius: 8px;
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

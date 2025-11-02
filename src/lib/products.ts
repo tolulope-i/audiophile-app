@@ -12,15 +12,38 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: 'xx99-mark-two',
-    slug: 'xx99-mark-two',
+    id: 'xx99-mark-II',
+    slug: 'xx99-mark-II',
     name: 'XX99 Mark II Headphones',
     category: 'headphones',
     price: 2999,
     description: 'The new XX99 Mark II headphones are the pinnacle of pristine audio. They redefine your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.',
     features: 'Featuring a genuine leather head strap and premium earcups, these headphones deliver superior comfort for those who like to enjoy endless listening. It includes intuitive controls designed for any situation. Whether you are taking a business call or just in your own personal space, the auto on/off and pause features ensure that you will never miss a beat.',
-    gallery: ['/images/xx99-1.jpg','/images/xx99-2.jpg','/images/xx99-3.jpg'],
-    image: '/images/xx99-hero.jpg'
+    gallery: ['/headphone-other1','/headphone-other2','/headphone-other3'],
+    image: '/headphone2.png'
+
+  },
+  {
+    id: 'xx99-mark-I',
+    slug: 'xx99-mark-I',
+    name: 'XX99 Mark I Headphones',
+    category: 'headphones',
+    price: 2999,
+    description: 'As the gold standard for headphones, the classic XX99 Mark I offers detailed and accurate audio reproduction for audiophiles, mixing engineers, and music aficionados alike in studios and on the go.',
+    features: 'Featuring a genuine leather head strap and premium earcups, these headphones deliver superior comfort for those who like to enjoy endless listening. It includes intuitive controls designed for any situation. Whether you are taking a business call or just in your own personal space, the auto on/off and pause features ensure that you will never miss a beat.',
+    gallery: ['/headphone-other1','headphone-other2','/headphone-other3'],
+    image: '/headphone1.png'
+  },
+  {
+    id: 'xx59',
+    slug: 'xx59',
+    name: 'XX59 Headphones',
+    category: 'headphones',
+    price: 2999,
+    description: 'Enjoy your audio almost anywhere and customize it to your specific tastes with the XX59 headphones. The stylish yet durable versatile wireless headset is a brilliant companion at home or on the move.',
+    features: 'Featuring a genuine leather head strap and premium earcups, these headphones deliver superior comfort for those who like to enjoy endless listening. It includes intuitive controls designed for any situation. Whether you are taking a business call or just in your own personal space, the auto on/off and pause features ensure that you will never miss a beat.',
+    gallery: ['/headphone-other1.png','headphone-other2.png','/headphone-other3.png'],
+    image: '/headphone3.png'
   },
   {
     id: 'zx9-speaker',
@@ -31,7 +54,18 @@ export const products: Product[] = [
     description: 'Upgrade your sound system with the all new ZX9 active speaker. It is a bookshelf speaker system that offers truly wireless connectivity, creating new possibilities for more pleasing and practical audio setups.',
     features: 'Connect via Bluetooth or nearly any wired source. This speaker features optical, digital coaxial, USB Type-B, stereo RCA, and XLR inputs, allowing you to have up to five wired source devices connected for easy switching. Improved Bluetooth technology offers near lossless audio quality at up to 328ft (100m).',
     gallery: ['/images/zx9-1.jpg','/images/zx9-2.jpg','/images/zx9-3.jpg'],
-    image: '/images/zx9-hero.jpg'
+    image: '/speakers.png'
+  },
+  {
+    id: 'zx9-speaker',
+    slug: 'zx9',
+    name: 'ZX9 Speaker',
+    category: 'speakers',
+    price: 4500,
+    description: 'Upgrade your sound system with the all new ZX9 active speaker. It is a bookshelf speaker system that offers truly wireless connectivity, creating new possibilities for more pleasing and practical audio setups.',
+    features: 'Connect via Bluetooth or nearly any wired source. This speaker features optical, digital coaxial, USB Type-B, stereo RCA, and XLR inputs, allowing you to have up to five wired source devices connected for easy switching. Improved Bluetooth technology offers near lossless audio quality at up to 328ft (100m).',
+    gallery: ['/images/zx9-1.jpg','/images/zx9-2.jpg','/images/zx9-3.jpg'],
+    image: '/speakers2.png'
   },
   {
     id: 'yx1-earphones',

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "./CartProvider";
 import CartPopup from "./CartPopup";
 import { useState } from "react";
+import CategorySectionCard from "./CategorySectionCard";
 
 export default function Header() {
   const { showCart, setShowCart } = useCart();
@@ -39,7 +40,10 @@ export default function Header() {
           </div>
 
           {/* Logo */}
-          <Link href="/" className="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none">
+          <Link
+            href="/"
+            className="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none"
+          >
             <Image
               src="/audiophile 2.svg"
               alt="audiophile logo"
@@ -51,10 +55,38 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:block desktop-nav">
             <ul className="flex gap-8">
-              <li><Link href="/" className="hover:text-orange-500 transition-colors">Home</Link></li>
-              <li><Link href="/headphones" className="hover:text-orange-500 transition-colors">Headphones</Link></li>
-              <li><Link href="/speakers" className="hover:text-orange-500 transition-colors">Speakers</Link></li>
-              <li><Link href="/earphones" className="hover:text-orange-500 transition-colors">Earphones</Link></li>
+              <li>
+                <Link
+                  href="/"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/headphones"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Headphones
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/speakers"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Speakers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/earphones"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Earphones
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -83,47 +115,29 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       {isNavOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={closeNav}>
-          <div 
-            className="bg-white text-black absolute top-0 left-0 w-4/5 h-full p-8 shadow-xl animate-in slide-in-from-left-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button 
-              onClick={closeNav}
-              className="absolute top-6 right-6 text-2xl hover:text-orange-500 transition-colors"
-            >
-              ×
-            </button>
-            
-            <div className="mt-12 space-y-6">
-              <Link 
-                href="/" 
-                className="block text-2xl font-bold hover:text-orange-500 transition-colors"
-                onClick={closeNav}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/headphones" 
-                className="block text-2xl font-bold hover:text-orange-500 transition-colors"
-                onClick={closeNav}
-              >
-                Headphones
-              </Link>
-              <Link 
-                href="/speakers" 
-                className="block text-2xl font-bold hover:text-orange-500 transition-colors"
-                onClick={closeNav}
-              >
-                Speakers
-              </Link>
-              <Link 
-                href="/earphones" 
-                className="block text-2xl font-bold hover:text-orange-500 transition-colors"
-                onClick={closeNav}
-              >
-                Earphones
-              </Link>
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/50"
+          onClick={closeNav}
+        >
+          <div className="bg-white mt-20 rounded-b-2xl">
+            <div className="category-section wrapper grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+              <CategorySectionCard
+                imageSrc="/headphones.png"
+                categoryName="Headphones"
+                linkUrl="/headphones"
+              />
+
+              <CategorySectionCard
+                imageSrc="/speakers.png"
+                categoryName="Speakers"
+                linkUrl= "/speakers"
+              />
+
+              <CategorySectionCard
+                imageSrc="/earphones.png"
+                categoryName="Earphones"
+                linkUrl = "/earphones"
+              />
             </div>
           </div>
         </div>

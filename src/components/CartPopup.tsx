@@ -15,12 +15,12 @@ export default function CartPopup() {
       <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setShowCart(false)} />
       <aside className="fixed right-4 top-20 w-96 max-w-[90vw] bg-white p-6 rounded-lg shadow-xl z-50 max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="font-bold text-lg">Cart ({items.length})</h3>
+          <h4 className="text-[18px]">Cart ({items.length})</h4>
           <button 
             onClick={() => setShowCart(false)}
             className="text-gray-500 hover:text-gray-700"
           >
-            ×
+            Remove all
           </button>
         </div>
         
@@ -39,25 +39,27 @@ export default function CartPopup() {
             <ul className="space-y-4 max-h-64 overflow-auto">
               {items.map(i => (
                 <li key={i.id} className="flex items-center gap-3 pb-4 border-b">
-                  <img src={i.image} alt={i.name} className="w-16 h-16 object-cover rounded" />
+                  <div className='product-box'>
+                  <img src={i.image} alt={i.name} className="w-16 h-16 rounded" />
+                  </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-sm">{i.name}</div>
+                    <div className="font-semibold text-sm">{i.id}</div>
                     <div className="text-sm text-gray-600">${i.price}</div>
                   </div>
                   <QuantityInput value={i.quantity} onChange={q => updateQty(i.id, q)} />
-                  <button 
+                  {/* <button 
                     onClick={() => removeItem(i.id)}
                     className="text-red-500 hover:text-red-700 ml-2"
                     aria-label="Remove item"
                   >
                     ×
-                  </button>
+                  </button> */}
                 </li>
               ))}
             </ul>
             
             <div className="mt-6 space-y-2">
-              <div className="flex justify-between text-sm">
+              {/* <div className="flex justify-between text-sm">
                 <span>Subtotal</span>
                 <span>${subtotal}</span>
               </div>
@@ -68,17 +70,17 @@ export default function CartPopup() {
               <div className="flex justify-between text-sm">
                 <span>Tax</span>
                 <span>${tax}</span>
-              </div>
-              <div className="flex justify-between font-bold text-lg border-t pt-2">
-                <span>Total</span>
-                <span>${grandTotal}</span>
+              </div> */}
+              <div className="flex justify-between text-lg border-t pt-2">
+                <p>TOTAL</p>
+                <h6 className='font-bold'>${grandTotal}</h6>
               </div>
             </div>
             
             <div className="mt-6 space-y-2">
               <Link href="/checkout">
                 <button 
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded font-semibold transition-colors"
+                  className="w-full bg-[#d87d4a] hover:bg-#fbaf85 text-white py-3 mb-2 font-semibold transition-colors"
                   onClick={() => setShowCart(false)}
                 >
                   Checkout

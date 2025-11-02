@@ -7,10 +7,10 @@ export default function EarphonesPage() {
   const list = products.filter(p => p.category === 'earphones');
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Headphones</h1>
-      <div className="grid md:grid-cols-3 gap-6">
-        {list.map(p => <ProductCard key={p.id} product={p} />)}
-      </div>
-    </div>
+          <h3 className="text-center">Earphones</h3>
+          <div className="grid md:grid-cols-1 gap-6">
+            {list.map(p => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </div>
   );
 }
