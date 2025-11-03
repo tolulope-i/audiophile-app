@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Advert() {
   return (
     <section className="wrapper">
-      <div className="flex flex-col justify-between items-center md:flex-row-reverse lg:items-center bg-light-grey px-6 rounded-lg gap-12 md:gap-0">
+      <div className="flex flex-col justify-between items-center md:flex-row-reverse lg:items-center bg-light-grey px-6 rounded-lg gap-12 md:gap-0 mb-[120px]">
         
         <div>
           <Image

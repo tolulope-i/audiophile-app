@@ -8,7 +8,7 @@ import Advert from "@/components/Advert";
 export default function Home() {
   return (
     <main className="">
-      {/* <Header /> */}
+      <Header />
       <CategorySection/>
       <ProductDisplay/>
       <Advert />

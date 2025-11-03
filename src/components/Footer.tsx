@@ -1,25 +1,35 @@
 import Link from "next/link";
-import { FaInstagram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebookF } from "react-icons/fa";
+import { FaInstagram, FaXTwitter, FaFacebookF } from "react-icons/fa6";
 
 function Footer() {
   return (
-    <footer className="bg-black text-white mt-auto">
-      <div className="wrapper py-12">
-        <div className="flex flex-col text-center md:text-left ">
-          {/* Brand and Description */}
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8">
-            <div className="">
-              <div className="h-1 bg-[#d87d4a] w-20 mb-8 text-center"></div>
-              <h2 className="text-2xl font-bold mb-4">audiophile</h2>
+    <footer className="bg-black text-white mt-auto relative">
+      {/* Orange line */}
+      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#d87d4a] lg:left-30 lg:transform-none"></div>
+
+      <div className="wrapper py-12 pt-16">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
+          {/* Brand and Navigation */}
+          <div className="flex flex-col lg:flex-row lg:gap-32 lg:items-start">
+            <div className="text-center md:text-left mb-8 lg:mb-0">
+              <h6 className="text-sm font-bold mb-8">audiophile</h6>
+
+              <div className="flex-1 text-center md:text-left">
+                <p className="text-white/50 leading-relaxed max-w-xl">
+                  Audiophile is an all in one stop to fulfill your audio needs.
+                  We're a small team of music lovers and sound specialists who
+                  are devoted to helping you get the most out of personal audio.
+                  Come and visit our demo facility - we're open 7 days a week.
+                </p>
+              </div>
             </div>
 
-            <ul className="flex flex-col lg:flex-row lg:justify-end gap-6 lg:gap-8 text-sm font-semibold">
+            {/* Description */}
+            <ul className="flex flex-col justify-center items-center text-center md:flex-row gap-4 lg:gap-8 text-sm font-semibold uppercase tracking-widest">
               <li>
                 <Link
                   href="/"
-                  className="hover:text-orange-500 transition-colors"
+                  className="hover:text-[#d87d4a] transition-colors"
                 >
                   Home
                 </Link>
@@ -27,7 +37,7 @@ function Footer() {
               <li>
                 <Link
                   href="/headphones"
-                  className="hover:text-orange-500 transition-colors"
+                  className="hover:text-[#d87d4a] transition-colors"
                 >
                   Headphones
                 </Link>
@@ -35,7 +45,7 @@ function Footer() {
               <li>
                 <Link
                   href="/speakers"
-                  className="hover:text-orange-500 transition-colors"
+                  className="hover:text-[#d87d4a] transition-colors"
                 >
                   Speakers
                 </Link>
@@ -43,65 +53,54 @@ function Footer() {
               <li>
                 <Link
                   href="/earphones"
-                  className="hover:text-orange-500 transition-colors"
+                  className="hover:text-[#d87d4a] transition-colors"
                 >
                   Earphones
                 </Link>
               </li>
             </ul>
           </div>
-
-          {/* Navigation Links */}
-          <div className="flex-1">
-            <p className="text-white opacity-50 leading-relaxed lg:max-w-[540px]">
-              Audiophile is an all in one stop to fulfill your audio needs.
-              We're a small team of music lovers and sound specialists who are
-              devoted to helping you get the most out of personal audio. Come
-              and visit our demo facility - we're open 7 days a week.
-            </p>
-          </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-700 mt-8 pt-8">
-          <div className="flex flex-col text-center md:flex-row md:justify-between md:items-center gap-4">
-            <p className="text-white opacity-50">
+        <div className="border-t border-white/20 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
+            <p className="text-white/50 text-center lg:text-left">
               Copyright 2024. All Rights Reserved
             </p>
-            <div className="">
-              <ul className="flex justify-center gap-6 text-white text-md">
+
+            <div className="flex justify-center lg:justify-end">
+              <ul className="flex gap-4 text-white text-lg">
                 <li>
                   <Link
-                    href="https://www.facebook.com/marvelous.ilesanmi.9"
+                    href="https://facebook.com"
                     target="_blank"
+                    className="hover:text-[#d87d4a] transition-colors"
+                    aria-label="Facebook"
                   >
                     <FaFacebookF />
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="https://x.com/dev__tolu?t=Y-q7l2pvY5032cfCsZp2mA&s=08"
+                    href="https://twitter.com"
                     target="_blank"
+                    className="hover:text-[#d87d4a] transition-colors"
+                    aria-label="Twitter"
                   >
                     <FaXTwitter />
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="https://www.instagram.com/tolu__nimi?igsh=MXN6M29yeXJhN3Z3Ng=="
+                    href="https://instagram.com"
                     target="_blank"
+                    className="hover:text-[#d87d4a] transition-colors"
+                    aria-label="Instagram"
                   >
                     <FaInstagram />
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    href="https://www.linkedin.com/in/tolulope-ilesanmi?"
-                    target="_blank"
-                  >
-                    <FaLinkedinIn />
-                  </Link>
-                </li> */}
               </ul>
             </div>
           </div>

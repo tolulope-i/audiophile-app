@@ -1,0 +1,12 @@
+{
+  "editor.inlineSuggest.enabled": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.tabCompletion": "on",
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.validate": true
+}

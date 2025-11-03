@@ -4,7 +4,7 @@ import { useCart } from './CartProvider';
 
 export default function AddToCartClient({ product }: any) {
   const [qty, setQty] = useState(1);
-  const { addItem, setShowCart } = useCart();
+  const { addItem } = useCart();
 
   return (
     <div className="mt-4 flex items-center gap-4">
@@ -34,7 +34,6 @@ export default function AddToCartClient({ product }: any) {
             quantity: qty, 
             image: product.image 
           });
-          setShowCart(true);
         }}
         className="cursor-pointer bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 px-6 font-semibold transition-colors"
       >

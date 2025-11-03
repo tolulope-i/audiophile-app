@@ -5,6 +5,7 @@ import { Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartProvider from "@/components/CartProvider";
+import Navbar from "@/components/Navbar";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export default function RootLayout({
         <ConvexClientProvider>
           <CartProvider>
             <div className="min-h-screen flex flex-col">
-              <Header />
+              <Navbar/>
               {children}
               <Footer />
             </div>

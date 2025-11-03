@@ -21,7 +21,6 @@ h1 {
   font-size: 56px;
   line-height: 58px;
   text-transform: uppercase;
-  color: var(--black);
 }
 h2 {
   font-family: var(--font-manrope);
@@ -71,6 +70,14 @@ h6 {
   letter-spacing: 10px;
   text-transform: uppercase;
   color: var(--primary);
+}
+.title {
+  font-family: var(--font-manrope);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 10px;
+  text-transform: uppercase;
 }
 .category {
   font-family: var(--font-manrope);
@@ -393,7 +400,7 @@ input[type="quantity"] {
 
   @media (min-width: 1024px) {
     .hero-section {
-      background-image: none;
+      background-image: none !important;
       min-height: 560px;
       display: flex;
       flex-direction: row;
@@ -422,8 +429,7 @@ input[type="quantity"] {
     }
 
     .hero-section .image-container {
-      display: block;
-      flex: 1;
+      display: flex;
       text-align: right;
     }
 

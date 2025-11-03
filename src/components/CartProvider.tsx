@@ -1,6 +1,6 @@
-'use client';
-import React, { createContext, useContext, useState } from 'react';
-import Toast from './Toast';
+"use client";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import Toast from "./Toast";
 
 type CartItem = {
   id: string;
@@ -12,7 +12,7 @@ type CartItem = {
 
 type ToastType = {
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
 };
 
 type CartContext = {
@@ -24,28 +24,64 @@ type CartContext = {
   subtotal: number;
   showCart: boolean;
   setShowCart: (b: boolean) => void;
-  showToast: (message: string, type: 'success' | 'error' | 'info') => void;
+  showToast: (message: string, type: "success" | "error" | "info") => void;
+  showConfirmation: boolean;
+  setShowConfirmation: (show: boolean) => void;
+  confirmationData: {
+    orderId: string;
+    items: CartItem[];
+    subtotal: number;
+    grandTotal: number;
+  } | null;
+  setConfirmationData: (data: any) => void;
+  setItems: React.Dispatch<React.SetStateAction<CartItem[]>>; // add this
 };
+
 
 const CartCtx = createContext<CartContext | undefined>(undefined);
 
-export default function CartProvider({ children }: { children: React.ReactNode }) {
+export default function CartProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [toast, setToast] = useState<ToastType | null>(null);
 
-  const showToast = (message: string, type: 'success' | 'error' | 'info') => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationData, setConfirmationData] = useState(null);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("cart");
+      if (stored) setItems(JSON.parse(stored));
+    }
+  }, []);
+
+  // Save to localStorage on items change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(items));
+    }
+  }, [items]);
+
+  const showToast = (message: string, type: "success" | "error" | "info") => {
     setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
   };
 
   const addItem = (item: CartItem) => {
-    setItems(prev => {
-      const found = prev.find(i => i.id === item.id);
+    setItems((prev) => {
+      const found = prev.find((i) => i.id === item.id);
       if (found) {
-        showToast(`Updated ${item.name} quantity`, 'success');
-        return prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i);
+        showToast(`Updated ${item.name} quantity`, "success");
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+        );
       }
-      showToast(`${item.name} added to cart`, 'success');
+      showToast(`${item.name} added to cart`, "success");
       return [...prev, item];
     });
   };
@@ -55,43 +91,53 @@ export default function CartProvider({ children }: { children: React.ReactNode }
       removeItem(id);
       return;
     }
-    setItems(prev => prev.map(i => i.id === id ? { ...i, quantity: qty } : i));
-    showToast('Cart updated', 'info');
+    setItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, quantity: qty } : i))
+    );
+    showToast("Cart Updated", "info");
   };
 
   const removeItem = (id: string) => {
-    const item = items.find(i => i.id === id);
-    setItems(prev => prev.filter(i => i.id !== id));
+    const item = items.find((i) => i.id === id);
+    setItems((prev) => prev.filter((i) => i.id !== id));
     if (item) {
-      showToast(`${item.name} removed from cart`, 'info');
+      showToast(`${item.name} removed from cart`, "info");
     }
   };
 
   const clear = () => {
     setItems([]);
-    showToast('Cart cleared', 'info');
+    showToast("Cart cleared", "info");
   };
 
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
 
+  // 👇 Wrap children inside provider FIRST, then use persistence logic
   return (
-    <CartCtx.Provider value={{ 
-      items, 
-      addItem, 
-      updateQty, 
-      removeItem, 
-      clear, 
-      subtotal, 
-      showCart, 
-      setShowCart,
-      showToast 
-    }}>
+    <CartCtx.Provider
+      value={{
+        items,
+        addItem,
+        updateQty,
+        removeItem,
+        clear,
+        subtotal,
+        showCart,
+        setShowCart,
+        showToast,
+        setItems, // include so persistence can update items
+        showConfirmation,
+        setShowConfirmation,
+        confirmationData,
+        setConfirmationData,
+      }}
+    >
       {children}
       {toast && (
-        <Toast 
-          message={toast.message} 
-          type={toast.type} 
-          onClose={() => setToast(null)} 
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </CartCtx.Provider>
@@ -100,6 +146,6 @@ export default function CartProvider({ children }: { children: React.ReactNode }
 
 export const useCart = () => {
   const ctx = useContext(CartCtx);
-  if (!ctx) throw new Error('useCart must be used inside CartProvider');
+  if (!ctx) throw new Error("useCart must be used inside CartProvider");
   return ctx;
 };
