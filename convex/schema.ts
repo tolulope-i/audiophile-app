@@ -29,6 +29,7 @@ export default defineSchema({
     }),
     status: v.string(),
     createdAt: v.string(),
+    orderId: v.string(), // Add orderId field
   }),
 
   carts: defineTable({

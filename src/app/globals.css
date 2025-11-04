@@ -743,3 +743,39 @@ footer {
   padding: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Enhanced loading states */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Focus styles for accessibility */
+.focus-ring:focus {
+  outline: 2px solid #d87d4a;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
