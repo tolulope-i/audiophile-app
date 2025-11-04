@@ -4,29 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartProvider";
 import CartPopup from "./CartPopup";
-import { useState } from "react";
-import CategorySectionCard from "./CategorySectionCard";
 
 export default function Header() {
-  const { showCart, setShowCart } = useCart();
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const totalCount = useCart().items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
-
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
-  const closeNav = () => {
-    setIsNavOpen(false);
-  };
+  const { showCart } = useCart();
 
   return (
     <header className="navbar relative bg-black">
-      
-
       {/* Hero Section */}
       <section className="wrapper hero-section">
         <div className="hero-content">

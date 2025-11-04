@@ -3,6 +3,7 @@ import React from 'react';
 import CheckoutForm from '../../components/CheckoutForm';
 import { useCart } from '@/components/CartProvider';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CheckoutPage() {
   const { items, subtotal } = useCart();
@@ -15,7 +16,7 @@ export default function CheckoutPage() {
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
         <p className="text-gray-600 mb-8">Add some products to your cart before checking out.</p>
-        <a href="/" className="btn btn-primary">Continue Shopping</a>
+        <Link href="/" className='btn btn-primary'>Continue Shopping</Link>
       </div>
     );
   }
@@ -23,9 +24,9 @@ export default function CheckoutPage() {
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <a href="/" className="text-gray-500 hover:text-[#d87d4a] mb-8 inline-block">
+        <Link href="/" className="text-gray-500 hover:text-[#d87d4a] mb-8 inline-block">
           ← Go back
-        </a>
+        </Link>
         
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
         

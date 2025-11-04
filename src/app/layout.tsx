@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { Manrope } from "next/font/google";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartProvider from "@/components/CartProvider";
 import Navbar from "@/components/Navbar";

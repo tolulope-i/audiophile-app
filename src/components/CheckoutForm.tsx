@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useCart } from "./CartProvider";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import Image from "next/image";
 
 type FormData = {
   // Billing Details
@@ -52,47 +53,58 @@ export default function CheckoutForm() {
     switch (name) {
       case "name":
         if (!value.trim()) return "Name is required";
-        if (value.trim().length < 2) return "Name must be at least 2 characters";
+        if (value.trim().length < 2)
+          return "Name must be at least 2 characters";
         return "";
 
       case "email":
         if (!value.trim()) return "Email is required";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Invalid email address";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return "Invalid email address";
         return "";
 
       case "phone":
         if (!value.trim()) return "Phone number is required";
-        if (!/^\+?[\d\s-()]{10,}$/.test(value.replace(/\s/g, ""))) return "Invalid phone number";
+        if (!/^\+?[\d\s-()]{10,}$/.test(value.replace(/\s/g, "")))
+          return "Invalid phone number";
         return "";
 
       case "address":
         if (!value.trim()) return "Address is required";
-        if (value.trim().length < 5) return "Address must be at least 5 characters";
+        if (value.trim().length < 5)
+          return "Address must be at least 5 characters";
         return "";
 
       case "zip":
         if (!value.trim()) return "ZIP code is required";
-        if (value.trim().length < 3) return "ZIP code must be at least 3 characters";
+        if (value.trim().length < 3)
+          return "ZIP code must be at least 3 characters";
         return "";
 
       case "city":
         if (!value.trim()) return "City is required";
-        if (value.trim().length < 2) return "City must be at least 2 characters";
+        if (value.trim().length < 2)
+          return "City must be at least 2 characters";
         return "";
 
       case "country":
         if (!value.trim()) return "Country is required";
-        if (value.trim().length < 2) return "Country must be at least 2 characters";
+        if (value.trim().length < 2)
+          return "Country must be at least 2 characters";
         return "";
 
       case "emoneyNumber":
-        if (form.paymentMethod === "emoney" && !value.trim()) return "e-Money number is required";
-        if (form.paymentMethod === "emoney" && !/^\d+$/.test(value)) return "e-Money number must contain only digits";
+        if (form.paymentMethod === "emoney" && !value.trim())
+          return "e-Money number is required";
+        if (form.paymentMethod === "emoney" && !/^\d+$/.test(value))
+          return "e-Money number must contain only digits";
         return "";
 
       case "emoneyPin":
-        if (form.paymentMethod === "emoney" && !value.trim()) return "e-Money PIN is required";
-        if (form.paymentMethod === "emoney" && !/^\d{4}$/.test(value)) return "PIN must be 4 digits";
+        if (form.paymentMethod === "emoney" && !value.trim())
+          return "e-Money PIN is required";
+        if (form.paymentMethod === "emoney" && !/^\d{4}$/.test(value))
+          return "PIN must be 4 digits";
         return "";
 
       default:
@@ -100,21 +112,18 @@ export default function CheckoutForm() {
     }
   };
 
+  const handleChange = useCallback(
+    (field: keyof FormData, value: string) => {
+      setForm((prev) => ({ ...prev, [field]: value }));
 
-
-
-const handleChange = useCallback(
-  (field: keyof FormData, value: string) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-    const error = validateField(field, value);
-    setErrors((prev) => ({
-      ...prev,
-      [field]: error,
-    }));
-  },
-  [] // no deps → stable forever
-);
+      const error = validateField(field, value);
+      setErrors((prev) => ({
+        ...prev,
+        [field]: error,
+      }));
+    },
+    [] // no deps → stable forever
+  );
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -197,7 +206,7 @@ const handleChange = useCallback(
       if (!res.ok || !json.success) {
         throw new Error(json?.message || "Failed to place order");
       }
-      
+
       // Redirect to confirmation page
       router.push(`/confirmation/${json.orderId}`);
       clear();
@@ -213,50 +222,50 @@ const handleChange = useCallback(
   const grandTotal = subtotal + shipping + tax;
 
   const InputField = ({
-  id,
-  label,
-  type = "text",
-  placeholder,
-  value,
-  error,
-  onChange,
-}: {
-  id: keyof FormData;
-  label: string;
-  type?: string;
-  placeholder: string;
-  value: string;
-  error?: string;
-  onChange: (value: string) => void;
-}) => (
-  <div className={id === "address" ? "col-span-2" : ""}>
-    <label htmlFor={id} className="block text-sm font-semibold mb-1">
-      {label}
-    </label>
+    id,
+    label,
+    type = "text",
+    placeholder,
+    value,
+    error,
+    onChange,
+  }: {
+    id: keyof FormData;
+    label: string;
+    type?: string;
+    placeholder: string;
+    value: string;
+    error?: string;
+    onChange: (value: string) => void;
+  }) => (
+    <div className={id === "address" ? "col-span-2" : ""}>
+      <label htmlFor={id} className="block text-sm font-semibold mb-1">
+        {label}
+      </label>
 
-    <input
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-        error
-          ? "border-red-500 focus:ring-red-200"
-          : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
-      }`}
-      aria-invalid={!!error}
-      aria-describedby={error ? `${id}-error` : undefined}
-    />
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+          error
+            ? "border-red-500 focus:ring-red-200"
+            : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
+        }`}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+      />
 
-    {/* <-- error under the input --> */}
-    {error && (
-      <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
-        {error}
-      </p>
-    )}
-  </div>
-);
+      {/* <-- error under the input --> */}
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
+          {error}
+        </p>
+      )}
+    </div>
+  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8" noValidate>
@@ -353,33 +362,41 @@ const handleChange = useCallback(
               </label>
             </div>
             <div className="space-y-3">
-              <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                form.paymentMethod === "emoney" 
-                  ? "border-[#d87d4a] bg-orange-50" 
-                  : "border-gray-300 hover:border-gray-400"
-              }`}>
+              <label
+                className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
+                  form.paymentMethod === "emoney"
+                    ? "border-[#d87d4a] bg-orange-50"
+                    : "border-gray-300 hover:border-gray-400"
+                }`}
+              >
                 <input
                   type="radio"
                   name="paymentMethod"
                   value="emoney"
                   checked={form.paymentMethod === "emoney"}
-                  onChange={(e) => handleChange("paymentMethod", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("paymentMethod", e.target.value)
+                  }
                   className="mr-3 w-4 h-4 text-[#d87d4a] focus:ring-[#d87d4a]"
                 />
                 e-Money
               </label>
 
-              <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                form.paymentMethod === "cash" 
-                  ? "border-[#d87d4a] bg-orange-50" 
-                  : "border-gray-300 hover:border-gray-400"
-              }`}>
+              <label
+                className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
+                  form.paymentMethod === "cash"
+                    ? "border-[#d87d4a] bg-orange-50"
+                    : "border-gray-300 hover:border-gray-400"
+                }`}
+              >
                 <input
                   type="radio"
                   name="paymentMethod"
                   value="cash"
                   checked={form.paymentMethod === "cash"}
-                  onChange={(e) => handleChange("paymentMethod", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("paymentMethod", e.target.value)
+                  }
                   className="mr-3 w-4 h-4 text-[#d87d4a] focus:ring-[#d87d4a]"
                 />
                 Cash on Delivery
@@ -413,19 +430,19 @@ const handleChange = useCallback(
           {form.paymentMethod === "cash" && (
             <div className="flex items-start gap-4 p-4 mt-4 bg-gray-50 rounded-lg">
               <div className="text-4xl flex-shrink-0">
-                <img 
-                  src="/cash.svg" 
-                  alt="Cash on Delivery" 
+                <Image
+                  src="/cash.svg"
+                  alt="Cash on Delivery"
+                  width={48}
+                  height={48}
+                  priority
                   className="w-12 h-12"
-                  width="48"
-                  height="48"
                 />
               </div>
               <p className="text-gray-600 text-sm leading-relaxed">
-                The 'Cash on Delivery' option enables you to pay in cash when
-                our delivery courier arrives at your residence. Just make sure
-                your address is correct so that your order will not be
-                cancelled.
+                The Cash on Delivery option enables you to pay in cash when our
+                delivery courier arrives at your residence. Just make sure your
+                address is correct so that your order will not be cancelled.
               </p>
             </div>
           )}
@@ -433,13 +450,21 @@ const handleChange = useCallback(
       </div>
 
       {serverError && (
-        <div 
+        <div
           className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg"
           role="alert"
         >
           <div className="flex items-center">
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
             </svg>
             <span className="font-medium">Error</span>
           </div>
@@ -451,13 +476,33 @@ const handleChange = useCallback(
         type="submit"
         disabled={loading || items.length === 0}
         className="w-full bg-[#d87d4a] hover:bg-[#fbaf85] disabled:bg-gray-400 text-white py-4 px-6 rounded-lg font-semibold transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-[#fbaf85] disabled:cursor-not-allowed"
-        aria-label={loading ? "Processing your order" : `Continue and pay $${grandTotal.toLocaleString()}`}
+        aria-label={
+          loading
+            ? "Processing your order"
+            : `Continue and pay $${grandTotal.toLocaleString()}`
+        }
       >
         {loading ? (
           <div className="flex items-center justify-center">
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
             Processing Your Order...
           </div>

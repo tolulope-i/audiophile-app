@@ -4,7 +4,6 @@ import AddToCartClient from "../../../components/AddToCartClient";
 import Image from "next/image";
 import Link from "next/link";
 import Advert from "@/components/Advert";
-import ProductDisplay from "@/components/ProductDisplay";
 import CategorySection from "@/components/CategorySection";
 
 type Props = { 
