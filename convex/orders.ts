@@ -1,6 +1,7 @@
 import { mutation } from './_generated/server';
 import { v } from 'convex/values';
 
+
 export const addOrder = mutation({
   args: {
     customer: v.object({
@@ -45,4 +46,9 @@ export const addOrder = mutation({
       return { success: false, error: 'Failed to save order' };
     }
   },
+});
+
+export const getOrder = query({
+  args: { id: v.id("orders") },
+  handler: async (ctx, { id }) => ctx.db.get(id),
 });

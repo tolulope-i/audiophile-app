@@ -4,6 +4,8 @@ import { useCart } from "../../../components/CartProvider";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import React from "react";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/functions/_generated/api";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -30,6 +32,7 @@ export default function Confirmation({ params }: Props) {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const order = useQuery(api.getOrder, { id: params.id }) || null;
   const shipping = 50;
   const tax = Math.round(subtotal * 0.07 * 100) / 100;
   const grandTotal = subtotal + shipping + tax;

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useCart } from "./CartProvider";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 type FormData = {
   // Billing Details
@@ -99,16 +100,21 @@ export default function CheckoutForm() {
     }
   };
 
-  const handleChange = (field: keyof FormData, value: string) => {
+
+
+
+const handleChange = useCallback(
+  (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
-    
-    // Real-time validation
+
     const error = validateField(field, value);
     setErrors((prev) => ({
       ...prev,
       [field]: error,
     }));
-  };
+  },
+  [] // no deps → stable forever
+);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -194,6 +200,7 @@ export default function CheckoutForm() {
       
       // Redirect to confirmation page
       router.push(`/confirmation/${json.orderId}`);
+      clear();
     } catch (err: any) {
       setServerError(err.message || "Something went wrong. Please try again.");
     } finally {
@@ -205,42 +212,51 @@ export default function CheckoutForm() {
   const tax = Math.round(subtotal * 0.07 * 100) / 100;
   const grandTotal = subtotal + shipping + tax;
 
-  const InputField = ({ 
-    id, label, type = "text", placeholder, value, error, onChange 
-  }: {
-    id: keyof FormData;
-    label: string;
-    type?: string;
-    placeholder: string;
-    value: string;
-    error?: string;
-    onChange: (value: string) => void;
-  }) => (
-    <div className={id === "address" ? "col-span-2" : ""}>
-      <div className="flex justify-between items-center mb-2">
-        <label htmlFor={id} className="block text-sm font-semibold">
-          {label}
-        </label>
-        {error && (
-          <span className="text-red-600 text-sm font-medium">{error}</span>
-        )}
-      </div>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-          error 
-            ? "border-red-500 focus:ring-red-200" 
-            : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
-        }`}
-        aria-describedby={error ? `${id}-error` : undefined}
-        aria-invalid={!!error}
-      />
-    </div>
-  );
+  const InputField = ({
+  id,
+  label,
+  type = "text",
+  placeholder,
+  value,
+  error,
+  onChange,
+}: {
+  id: keyof FormData;
+  label: string;
+  type?: string;
+  placeholder: string;
+  value: string;
+  error?: string;
+  onChange: (value: string) => void;
+}) => (
+  <div className={id === "address" ? "col-span-2" : ""}>
+    <label htmlFor={id} className="block text-sm font-semibold mb-1">
+      {label}
+    </label>
+
+    <input
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+        error
+          ? "border-red-500 focus:ring-red-200"
+          : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
+      }`}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : undefined}
+    />
+
+    {/* <-- error under the input --> */}
+    {error && (
+      <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
+        {error}
+      </p>
+    )}
+  </div>
+);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8" noValidate>
