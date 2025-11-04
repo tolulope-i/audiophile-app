@@ -2,7 +2,18 @@
 import React, { useState } from 'react';
 import { useCart } from './CartProvider';
 
-export default function AddToCartClient({ product }: any) {
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+}
+
+interface AddToCartClientProps {
+  product: Product;
+}
+
+export default function AddToCartClient({ product }: AddToCartClientProps) {
   const [qty, setQty] = useState(1);
   const { addItem } = useCart();
 

@@ -1,23 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useCart } from "./CartProvider";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 import Image from "next/image";
 
 type FormData = {
-  // Billing Details
   name: string;
   email: string;
   phone: string;
-
-  // Shipping Info
   address: string;
   zip: string;
   city: string;
   country: string;
-
-  // Payment Details
   paymentMethod: "emoney" | "cash";
   emoneyNumber: string;
   emoneyPin: string;
@@ -48,69 +42,73 @@ export default function CheckoutForm() {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
 
-  // Validation functions
-  const validateField = (name: keyof FormData, value: string): string => {
-    switch (name) {
-      case "name":
-        if (!value.trim()) return "Name is required";
-        if (value.trim().length < 2)
-          return "Name must be at least 2 characters";
-        return "";
+  const validateField = useCallback(
+    (name: keyof FormData, value: string, paymentMethod?: string): string => {
+      const currentPaymentMethod = paymentMethod || form.paymentMethod;
 
-      case "email":
-        if (!value.trim()) return "Email is required";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-          return "Invalid email address";
-        return "";
+      switch (name) {
+        case "name":
+          if (!value.trim()) return "Name is required";
+          if (value.trim().length < 2)
+            return "Name must be at least 2 characters";
+          return "";
 
-      case "phone":
-        if (!value.trim()) return "Phone number is required";
-        if (!/^\+?[\d\s-()]{10,}$/.test(value.replace(/\s/g, "")))
-          return "Invalid phone number";
-        return "";
+        case "email":
+          if (!value.trim()) return "Email is required";
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+            return "Invalid email address";
+          return "";
 
-      case "address":
-        if (!value.trim()) return "Address is required";
-        if (value.trim().length < 5)
-          return "Address must be at least 5 characters";
-        return "";
+        case "phone":
+          if (!value.trim()) return "Phone number is required";
+          if (!/^\+?[\d\s-()]{10,}$/.test(value.replace(/\s/g, "")))
+            return "Invalid phone number";
+          return "";
 
-      case "zip":
-        if (!value.trim()) return "ZIP code is required";
-        if (value.trim().length < 3)
-          return "ZIP code must be at least 3 characters";
-        return "";
+        case "address":
+          if (!value.trim()) return "Address is required";
+          if (value.trim().length < 5)
+            return "Address must be at least 5 characters";
+          return "";
 
-      case "city":
-        if (!value.trim()) return "City is required";
-        if (value.trim().length < 2)
-          return "City must be at least 2 characters";
-        return "";
+        case "zip":
+          if (!value.trim()) return "ZIP code is required";
+          if (value.trim().length < 3)
+            return "ZIP code must be at least 3 characters";
+          return "";
 
-      case "country":
-        if (!value.trim()) return "Country is required";
-        if (value.trim().length < 2)
-          return "Country must be at least 2 characters";
-        return "";
+        case "city":
+          if (!value.trim()) return "City is required";
+          if (value.trim().length < 2)
+            return "City must be at least 2 characters";
+          return "";
 
-      case "emoneyNumber":
-        if (form.paymentMethod === "emoney" && !value.trim())
-          return "e-Money number is required";
-        if (form.paymentMethod === "emoney" && !/^\d+$/.test(value))
-          return "e-Money number must contain only digits";
-        return "";
+        case "country":
+          if (!value.trim()) return "Country is required";
+          if (value.trim().length < 2)
+            return "Country must be at least 2 characters";
+          return "";
 
-      case "emoneyPin":
-        if (form.paymentMethod === "emoney" && !value.trim())
-          return "e-Money PIN is required";
-        if (form.paymentMethod === "emoney" && !/^\d{4}$/.test(value))
-          return "PIN must be 4 digits";
-        return "";
+        case "emoneyNumber":
+          if (currentPaymentMethod === "emoney" && !value.trim())
+            return "e-Money number is required";
+          if (currentPaymentMethod === "emoney" && !/^\d+$/.test(value))
+            return "e-Money number must contain only digits";
+          return "";
 
-      default:
-        return "";
-    }
-  };
+        case "emoneyPin":
+          if (currentPaymentMethod === "emoney" && !value.trim())
+            return "e-Money PIN is required";
+          if (currentPaymentMethod === "emoney" && !/^\d{4}$/.test(value))
+            return "PIN must be 4 digits";
+          return "";
+
+        default:
+          return "";
+      }
+    },
+    [form.paymentMethod]
+  );
 
   const handleChange = useCallback(
     (field: keyof FormData, value: string) => {
@@ -122,7 +120,7 @@ export default function CheckoutForm() {
         [field]: error,
       }));
     },
-    [] // no deps → stable forever
+    [validateField]
   );
 
   const validateForm = (): boolean => {
@@ -146,7 +144,6 @@ export default function CheckoutForm() {
     setServerError("");
 
     if (!validateForm()) {
-      // Scroll to first error
       const firstErrorField = Object.keys(errors)[0];
       if (firstErrorField) {
         document.getElementById(firstErrorField)?.scrollIntoView({
@@ -207,11 +204,14 @@ export default function CheckoutForm() {
         throw new Error(json?.message || "Failed to place order");
       }
 
-      // Redirect to confirmation page
       router.push(`/confirmation/${json.orderId}`);
       clear();
-    } catch (err: any) {
-      setServerError(err.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
+      setServerError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -258,7 +258,6 @@ export default function CheckoutForm() {
         aria-describedby={error ? `${id}-error` : undefined}
       />
 
-      {/* <-- error under the input --> */}
       {error && (
         <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
           {error}
@@ -272,7 +271,6 @@ export default function CheckoutForm() {
       <div className="bg-white rounded-lg p-6 lg:p-8">
         <h2 className="text-2xl lg:text-3xl font-bold mb-6">Checkout</h2>
 
-        {/* Billing Details */}
         <section className="mb-8">
           <h3 className="text-lg font-semibold mb-4 text-[#d87d4a]">
             Billing Details
@@ -307,7 +305,6 @@ export default function CheckoutForm() {
           </div>
         </section>
 
-        {/* Shipping Info */}
         <section className="mb-8">
           <h3 className="text-lg font-semibold mb-4 text-[#d87d4a]">
             Shipping Info
@@ -350,7 +347,6 @@ export default function CheckoutForm() {
           </div>
         </section>
 
-        {/* Payment Details */}
         <section className="mb-8">
           <h3 className="text-lg font-semibold mb-4 text-[#d87d4a]">
             Payment Details
@@ -429,13 +425,12 @@ export default function CheckoutForm() {
 
           {form.paymentMethod === "cash" && (
             <div className="flex items-start gap-4 p-4 mt-4 bg-gray-50 rounded-lg">
-              <div className="text-4xl flex-shrink-0">
+              <div className="text-4xl shrink-0">
                 <Image
                   src="/cash.svg"
                   alt="Cash on Delivery"
                   width={48}
                   height={48}
-                  priority
                   className="w-12 h-12"
                 />
               </div>

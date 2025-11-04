@@ -44,7 +44,7 @@ export default function Confirmation({ params }: Props) {
     const loadParams = async () => {
       const resolvedParams = await params;
       setOrderId(resolvedParams.id);
-      
+
       setOrderData({
         orderId: resolvedParams.id,
         items,
@@ -53,7 +53,7 @@ export default function Confirmation({ params }: Props) {
         taxes: tax,
         grandTotal,
       });
-      
+
       setLoading(false);
     };
     loadParams();
@@ -84,8 +84,12 @@ export default function Confirmation({ params }: Props) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Order Not Found</h2>
-          <p className="text-gray-600 mb-6">Sorry, we could not find your order details.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Order Not Found
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Sorry, we could not find your order details.
+          </p>
           <Link
             href="/"
             className="inline-block bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 px-6 rounded-lg font-semibold transition-colors"
@@ -102,7 +106,7 @@ export default function Confirmation({ params }: Props) {
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
           <div className="text-center mb-6">
-            <div 
+            <div
               className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
               aria-hidden="true"
             >
@@ -120,12 +124,13 @@ export default function Confirmation({ params }: Props) {
                 ></path>
               </svg>
             </div>
-            
+
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               Thank you for your order!
             </h1>
             <p className="text-gray-600 mb-2">
-              Order confirmed with ID: <strong className="text-[#d87d4a]">{orderData.orderId}</strong>
+              Order confirmed with ID:{" "}
+              <strong className="text-[#d87d4a]">{orderData.orderId}</strong>
             </p>
             <p className="text-gray-500 text-sm">
               You will receive an email confirmation shortly.
@@ -134,7 +139,7 @@ export default function Confirmation({ params }: Props) {
 
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
-            
+
             <div className="space-y-3 mb-4">
               {orderData.items.slice(0, 1).map((item) => (
                 <div
@@ -142,7 +147,7 @@ export default function Confirmation({ params }: Props) {
                   className="flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3 flex-1">
-                    <div 
+                    <div
                       className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center"
                       aria-hidden="true"
                     >
@@ -209,16 +214,6 @@ export default function Confirmation({ params }: Props) {
             <p className="text-gray-500 text-sm mt-3">
               Your cart will be cleared automatically in a few seconds...
             </p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-          <h3 className="text-lg font-semibold mb-2">What happens next?</h3>
-          <p className="text-gray-600 text-sm mb-4">
-            We are preparing your order for shipment. You will receive a tracking number via email once it is on its way.
-          </p>
-          <div className="text-xs text-gray-500">
-            Need help? Contact support at support@audiophile.com
           </div>
         </div>
       </div>
