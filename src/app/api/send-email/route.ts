@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { generateOrderEmailTemplate } from '@/lib/email-template'
+import { generateOrderConfirmationEmail } from '@/lib/email-template'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       from: 'Audiophile <noreply@audiophile.com>',
       to: [customerEmail],
       subject: `Order Confirmation - #${order.orderId}`,
-      html: generateOrderEmailTemplate(order),
+      html: generateOrderConfirmationEmail(order),
     })
 
     if (error) {
