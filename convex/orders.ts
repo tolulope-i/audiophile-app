@@ -1,6 +1,5 @@
-import { mutation } from './_generated/server';
+import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
-
 
 export const addOrder = mutation({
   args: {
@@ -48,7 +47,7 @@ export const addOrder = mutation({
   },
 });
 
-export const getOrder = mutation({
+export const getOrder = query({
   args: { id: v.id("orders") },
   handler: async (ctx, { id }) => ctx.db.get(id),
 });

@@ -1,30 +1,36 @@
 'use client';
 import React, { useEffect } from 'react';
 
-type ToastProps = {
+interface ToastProps {
   message: string;
   type: 'success' | 'error' | 'info';
   onClose: () => void;
-  duration?: number;
-};
+}
 
-export default function Toast({ message, type, onClose, duration = 3000 }: ToastProps) {
+export default function Toast({ message, type, onClose }: ToastProps) {
   useEffect(() => {
-    const timer = setTimeout(onClose, duration);
-    return () => clearTimeout(timer);
-  }, [onClose, duration]);
+    const timer = setTimeout(() => {
+      onClose();
+    }, 3000);
 
-  const bgColor = {
-    success: 'bg-green-500',
-    error: 'bg-red-500',
-    info: 'bg-blue-500'
-  }[type];
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  const bgColor = type === 'success' 
+    ? 'bg-green-200' 
+    : type === 'error' 
+    ? 'bg-red-200' 
+    : 'bg-blue-200';
 
   return (
-    <div className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-in slide-in-from-right-8`}>
-      <div className="flex items-center gap-3">
+    <div className={`fixed bottom-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up`}>
+      <div className="flex items-center gap-2">
         <span>{message}</span>
-        <button onClick={onClose} className="text-white hover:text-gray-200 text-lg">
+        <button 
+          onClick={onClose} 
+          className="ml-2 hover:opacity-75"
+          aria-label="Close notification"
+        >
           ×
         </button>
       </div>

@@ -4,27 +4,31 @@ import { useCart } from "../../../components/CartProvider";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import React from "react";
-import { useQuery } from "convex/react";
-import { api } from "../../../../convex/functions/_generated/api";
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
+interface Params {
+  id: string;
+}
 
-type OrderData = {
+interface Props {
+  params: Promise<Params>;
+}
+
+interface OrderItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+interface OrderData {
   orderId: string;
-  items: Array<{
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    image?: string;
-  }>;
+  items: OrderItem[];
   subtotal: number;
   shipping: number;
   taxes: number;
   grandTotal: number;
-};
+}
 
 export default function Confirmation({ params }: Props) {
   const { items, subtotal, clear } = useCart();
@@ -32,7 +36,6 @@ export default function Confirmation({ params }: Props) {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const order = useQuery(api.getOrder, { id: params.id }) || null;
   const shipping = 50;
   const tax = Math.round(subtotal * 0.07 * 100) / 100;
   const grandTotal = subtotal + shipping + tax;
@@ -42,7 +45,6 @@ export default function Confirmation({ params }: Props) {
       const resolvedParams = await params;
       setOrderId(resolvedParams.id);
       
-      // Set order data from cart
       setOrderData({
         orderId: resolvedParams.id,
         items,
@@ -55,14 +57,13 @@ export default function Confirmation({ params }: Props) {
       setLoading(false);
     };
     loadParams();
-  }, [params, items, subtotal, tax, grandTotal]);
+  }, [params, items, subtotal, tax, grandTotal, shipping]);
 
-  // Clear cart after 10 seconds
   useEffect(() => {
     if (orderId && items.length > 0) {
       const timer = setTimeout(() => {
         clear();
-      }, 10000); // 10 seconds
+      }, 10000);
 
       return () => clearTimeout(timer);
     }
@@ -84,7 +85,7 @@ export default function Confirmation({ params }: Props) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Order Not Found</h2>
-          <p className="text-gray-600 mb-6">Sorry, we couldn't find your order details.</p>
+          <p className="text-gray-600 mb-6">Sorry, we could not find your order details.</p>
           <Link
             href="/"
             className="inline-block bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 px-6 rounded-lg font-semibold transition-colors"
@@ -99,9 +100,7 @@ export default function Confirmation({ params }: Props) {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
-        {/* Success Card */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          {/* Success Icon */}
           <div className="text-center mb-6">
             <div 
               className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -133,11 +132,9 @@ export default function Confirmation({ params }: Props) {
             </p>
           </div>
 
-          {/* Order Summary */}
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
             
-            {/* Items List */}
             <div className="space-y-3 mb-4">
               {orderData.items.slice(0, 1).map((item) => (
                 <div
@@ -179,7 +176,6 @@ export default function Confirmation({ params }: Props) {
               )}
             </div>
 
-            {/* Totals */}
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
@@ -202,7 +198,6 @@ export default function Confirmation({ params }: Props) {
             </div>
           </div>
 
-          {/* Action Button */}
           <div className="text-center">
             <Link
               href="/"
@@ -217,11 +212,10 @@ export default function Confirmation({ params }: Props) {
           </div>
         </div>
 
-        {/* Additional Info */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
           <h3 className="text-lg font-semibold mb-2">What happens next?</h3>
           <p className="text-gray-600 text-sm mb-4">
-            We're preparing your order for shipment. You'll receive a tracking number via email once it's on its way.
+            We are preparing your order for shipment. You will receive a tracking number via email once it is on its way.
           </p>
           <div className="text-xs text-gray-500">
             Need help? Contact support at support@audiophile.com

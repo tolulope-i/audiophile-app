@@ -2,20 +2,27 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import Toast from "./Toast";
 
-type CartItem = {
+export interface CartItem {
   id: string;
   name: string;
   price: number;
   quantity: number;
   image?: string;
-};
+}
 
-type ToastType = {
+interface ToastType {
   message: string;
   type: "success" | "error" | "info";
-};
+}
 
-type CartContext = {
+interface ConfirmationData {
+  orderId: string;
+  items: CartItem[];
+  subtotal: number;
+  grandTotal: number;
+}
+
+interface CartContext {
   items: CartItem[];
   addItem: (item: CartItem) => void;
   updateQty: (id: string, qty: number) => void;
@@ -27,16 +34,10 @@ type CartContext = {
   showToast: (message: string, type: "success" | "error" | "info") => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
-  confirmationData: {
-    orderId: string;
-    items: CartItem[];
-    subtotal: number;
-    grandTotal: number;
-  } | null;
-  setConfirmationData: (data: any) => void;
-  setItems: React.Dispatch<React.SetStateAction<CartItem[]>>; // add this
-};
-
+  confirmationData: ConfirmationData | null;
+  setConfirmationData: (data: ConfirmationData | null) => void;
+  setItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}
 
 const CartCtx = createContext<CartContext | undefined>(undefined);
 
@@ -50,9 +51,8 @@ export default function CartProvider({
   const [toast, setToast] = useState<ToastType | null>(null);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmationData, setConfirmationData] = useState(null);
+  const [confirmationData, setConfirmationData] = useState<ConfirmationData | null>(null);
 
-  // Load from localStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("cart");
@@ -60,7 +60,6 @@ export default function CartProvider({
     }
   }, []);
 
-  // Save to localStorage on items change
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(items));
@@ -112,7 +111,6 @@ export default function CartProvider({
 
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
 
-  // 👇 Wrap children inside provider FIRST, then use persistence logic
   return (
     <CartCtx.Provider
       value={{
@@ -125,7 +123,7 @@ export default function CartProvider({
         showCart,
         setShowCart,
         showToast,
-        setItems, // include so persistence can update items
+        setItems,
         showConfirmation,
         setShowConfirmation,
         confirmationData,

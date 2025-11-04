@@ -1,13 +1,35 @@
 import { NextResponse } from "next/server";
-import { fetchMutation } from "convex/nextjs";
+import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../../../convex/_generated/api";
 import { sendOrderConfirmationEmail } from "@/lib/nodemailer";
 
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+interface CheckoutBody {
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  shipping: {
+    address: string;
+    city: string;
+    zip: string;
+    country: string;
+  };
+  items: CartItem[];
+}
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: CheckoutBody = await req.json();
 
-    // Validate required fields
     if (
       !body.customer?.name ||
       !body.customer?.email ||
@@ -35,55 +57,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Cart is empty" }, { status: 400 });
     }
 
-    // Generate order ID
     const orderId =
       "ORD_" +
       Date.now() +
       "_" +
       Math.random().toString(36).substr(2, 9).toUpperCase();
 
-    // Calculate totals
     const subtotal = body.items.reduce(
-      (sum: number, item: any) => sum + item.price * item.quantity,
+      (sum, item) => sum + item.price * item.quantity,
       0
     );
     const shipping = 50;
-    const taxes = Math.round(subtotal * 0.07 * 100) / 100; // Round to 2 decimal places
+    const taxes = Math.round(subtotal * 0.07 * 100) / 100;
     const grandTotal = Math.round((subtotal + shipping + taxes) * 100) / 100;
 
-    // Save order to Convex
-    let convexOrderId;
+    const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+
     try {
-      const orderResult = await fetchMutation(api.addOrder, {
-        customer: body.customer,
-        shipping: body.shipping,
-        items: body.items,
-        totals: {
-          subtotal,
-          shipping,
-          taxes,
-          grandTotal,
-        },
-        orderId, // <-- NEW
-      });
-
-      if (!orderResult.success) {
-        throw new Error(orderResult.error || "Failed to save order");
-      }
-
-      convexOrderId = orderResult.id;
-      console.log("Order saved to Convex with ID:", convexOrderId);
-    } catch (convexError) {
-      console.error("Failed to save order to Convex:", convexError);
-      return NextResponse.json(
-        { message: "Failed to save order. Please try again." },
-        { status: 500 }
-      );
-    }
-
-    // Send confirmation email
-    try {
-      const emailResult = await sendOrderConfirmationEmail({
+      const orderResult = await client.mutation(api.orders.addOrder, {
         customer: body.customer,
         shipping: body.shipping,
         items: body.items,
@@ -96,31 +87,49 @@ export async function POST(req: Request) {
         orderId,
       });
 
-      if (!emailResult.success) {
-        console.error("Failed to send confirmation email:", emailResult.error);
-        // Don't fail the order if email fails, just log it
-      } else {
-        console.log("Confirmation email sent successfully");
+      if (!orderResult.success) {
+        throw new Error(orderResult.error || "Failed to save order");
       }
-    } catch (emailError) {
-      console.error("Email sending failed:", emailError);
-      // Continue with order even if email fails
-    }
 
-    return NextResponse.json(
-  {
-    success: true,
-    orderId: convexOrderId,          // <-- use the real DB id
-    message: "Order placed successfully",
-  },
-  { status: 200 }
-);
-  } catch (err: any) {
+      try {
+        await sendOrderConfirmationEmail({
+          customer: body.customer,
+          shipping: body.shipping,
+          items: body.items,
+          totals: {
+            subtotal,
+            shipping,
+            taxes,
+            grandTotal,
+          },
+          orderId,
+        });
+        console.log("Confirmation email sent successfully");
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+      }
+
+      return NextResponse.json(
+        {
+          success: true,
+          orderId,
+          message: "Order placed successfully",
+        },
+        { status: 200 }
+      );
+    } catch (convexError) {
+      console.error("Failed to save order to Convex:", convexError);
+      return NextResponse.json(
+        { message: "Failed to save order. Please try again." },
+        { status: 500 }
+      );
+    }
+  } catch (err) {
     console.error("Checkout error:", err);
     return NextResponse.json(
       {
         success: false,
-        message: err.message || "Internal server error",
+        message: err instanceof Error ? err.message : "Internal server error",
       },
       { status: 500 }
     );

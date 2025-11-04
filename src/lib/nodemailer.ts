@@ -1,14 +1,44 @@
 import nodemailer from 'nodemailer';
 
+interface OrderItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+}
+
+interface OrderData {
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  shipping: {
+    address: string;
+    city: string;
+    zip: string;
+    country: string;
+  };
+  items: OrderItem[];
+  totals: {
+    subtotal: number;
+    shipping: number;
+    taxes: number;
+    grandTotal: number;
+  };
+  orderId: string;
+}
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD, // Use App Password, not regular password
+    pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
 
-export const sendOrderConfirmationEmail = async (order: any) => {
+export const sendOrderConfirmationEmail = async (order: OrderData) => {
   const emailHtml = generateOrderConfirmationEmail(order);
 
   try {
@@ -28,7 +58,7 @@ export const sendOrderConfirmationEmail = async (order: any) => {
   }
 };
 
-const generateOrderConfirmationEmail = (order: any) => {
+const generateOrderConfirmationEmail = (order: OrderData): string => {
   return `
   <!DOCTYPE html>
   <html>
@@ -156,7 +186,7 @@ const generateOrderConfirmationEmail = (order: any) => {
           <tbody>
             ${order.items
               .map(
-                (item: any) => `
+                (item) => `
                 <tr>
                   <td>${item.name}</td>
                   <td>${item.quantity}</td>
