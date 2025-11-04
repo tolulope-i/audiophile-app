@@ -8,8 +8,8 @@
  * @module
  */
 
-import type * as functions_addOrder from "../functions/addOrder.js";
-import type * as functions_sendOrderEmail from "../functions/sendOrderEmail.js";
+import type * as carts from "../carts.js";
+import type * as orders from "../orders.js";
 
 import type {
   ApiFromModules,
@@ -26,8 +26,8 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  "functions/addOrder": typeof functions_addOrder;
-  "functions/sendOrderEmail": typeof functions_sendOrderEmail;
+  carts: typeof carts;
+  orders: typeof orders;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
