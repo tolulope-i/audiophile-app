@@ -51,12 +51,12 @@ export default function CartPopup() {
             <ul className="space-y-4 max-h-64 overflow-auto mb-6">
               {items.map((item) => (
                 <li key={item.id} className="flex items-center gap-4 pb-4">
-                  <div className="product-box w-16 h-16 rounded flex items-center justify-center">
+                  <div className="cart-product w-16 h-16 rounded flex items-center justify-center">
                     <Image
                       src={item.image || "/placeholder.jpg"}
                       alt={item.name}
-                      width={48}
-                      height={48}
+                      width={40}
+                      height={40}
                       className="w-12 h-12 object-contain"
                     />
                   </div>
@@ -117,7 +117,7 @@ export default function CartPopup() {
             <div className="space-y-3">
               <Link href="/checkout">
                 <button
-                  className="w-full bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 font-semibold transition-colors"
+                  className="cursor-pointer w-full bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 font-semibold transition-colors"
                   onClick={() => setShowCart(false)}
                 >
                   Checkout

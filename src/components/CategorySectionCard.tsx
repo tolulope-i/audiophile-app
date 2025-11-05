@@ -13,7 +13,7 @@ export default function CategorySectionCard(props: {
         <Image src={props.imageSrc} alt="headphones" width={80} height={104} />
       </div>
       <div className="category-box bg-white rounded-lg pt-20 pb-8 px-8 text-center w-full mt-16 ">
-        <h6 className="text-lg font-bold mb-4">{props.categoryName}</h6>
+        <h6 className="text-lg font-bold mb-4 lg:mt-4">{props.categoryName}</h6>
         <Link href={props.linkUrl} className="btn btn-text flex justify-center items-center gap-4">
           shop{" "}
           <span>

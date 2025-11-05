@@ -42,12 +42,12 @@ export default function CheckoutPage() {
             <div className="space-y-4 mb-6">
               {items.map(item => (
                 <div key={item.id} className="flex items-center gap-4">
-                  <div className="product-box w-16 h-16 rounded">
+                  <div className="cart-product w-16 h-16 rounded">
                     <Image
                       src={item.image || '/placeholder.jpg'}
                       alt={item.name}
-                      width={64}
-                      height={64}
+                      width={40}
+                      height={40}
                       className="w-full h-full object-contain"
                     />
                   </div>

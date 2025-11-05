@@ -34,6 +34,7 @@ function Navbar() {
                 alt="hamburger icon"
                 width={16}
                 height={15}
+                className="logo"
               />
             </button>
           </div>

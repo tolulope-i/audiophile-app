@@ -23,10 +23,10 @@ export default function HeadphonesPage() {
               <Image
                 src={product.image}
                 alt={product.name}
-                width={540}
-                height={560}
+                width={220}
+                height={243}
                 priority
-                className="w-full object-contain"
+                className="w-full object-contain img"
               />
             </div>
 

@@ -323,7 +323,7 @@ export default function CheckoutForm() {
               error={errors.address}
               onChange={(value) => handleChange("address", value)}
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <InputField
                 id="zip"
                 label="ZIP Code"
@@ -341,6 +341,9 @@ export default function CheckoutForm() {
                 onChange={(value) => handleChange("city", value)}
               />
             </div>
+          </div>
+          <div className="mt-4">
+
             <InputField
               id="country"
               label="Country"
@@ -366,7 +369,7 @@ export default function CheckoutForm() {
               <label
                 className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
                   form.paymentMethod === "emoney"
-                    ? "border-[#d87d4a] bg-orange-50"
+                    ? "border-[#d87d4a]"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
               >
@@ -386,7 +389,7 @@ export default function CheckoutForm() {
               <label
                 className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
                   form.paymentMethod === "cash"
-                    ? "border-[#d87d4a] bg-orange-50"
+                    ? "border-[#d87d4a]"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
               >
