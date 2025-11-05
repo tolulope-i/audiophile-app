@@ -73,7 +73,7 @@ const InputField = ({
 );
 
 export default function CheckoutForm() {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, clear } = useCart();
   const router = useRouter();
 
   const [form, setForm] = useState<FormData>({
@@ -254,9 +254,8 @@ export default function CheckoutForm() {
       if (!res.ok || !json.success) {
         throw new Error(json?.message || "Failed to place order");
       }
-
       router.push(`/confirmation/${json.orderId}`);
-      // clear();
+      clear();
     } catch (err) {
       const errorMessage =
         err instanceof Error
