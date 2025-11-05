@@ -76,7 +76,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="grid md:grid-cols-2 gap-4 mb-20">
         <div className="space-y-4">
           {product.gallery[0] && (
-            <div className="product-box rounded overflow-hidden">
+            <div className=" rounded overflow-hidden">
               <Image
                 src={product.gallery[0]}
                 alt={`${product.name} gallery 1`}
@@ -87,7 +87,7 @@ export default async function ProductPage({ params }: Props) {
             </div>
           )}
           {product.gallery[1] && (
-            <div className="product-box rounded overflow-hidden">
+            <div className=" rounded overflow-hidden">
               <Image
                 src={product.gallery[1]}
                 alt={`${product.name} gallery 2`}
@@ -99,7 +99,7 @@ export default async function ProductPage({ params }: Props) {
           )}
         </div>
         {product.gallery[2] && (
-          <div className="product-box rounded overflow-hidden">
+          <div className=" rounded overflow-hidden">
             <Image
               src={product.gallery[2]}
               alt={`${product.name} gallery 3`}
@@ -119,7 +119,7 @@ export default async function ProductPage({ params }: Props) {
             .slice(0, 3)
             .map((p) => (
               <div key={p.id} className="text-center">
-                <div className="product-box mb-8 rounded overflow-hidden">
+                <div className="cart-product mb-8 rounded overflow-hidden px-2 py-6">
                   <Image
                     src={p.image}
                     alt={p.name}

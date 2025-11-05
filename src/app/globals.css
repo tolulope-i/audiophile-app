@@ -608,7 +608,7 @@ input[type="quantity"] {
   }
 
   .product-box img{
-    width: 100%;
+    /* width: 100%; */
     max-width: 220px;
     height: 243px;
   }

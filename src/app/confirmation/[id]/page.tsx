@@ -105,9 +105,9 @@ export default function Confirmation({ params }: Props) {
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="text-center mb-6">
+          <div className="text-left mb-6">
             <div
-              className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 bg-[#d87d4a] rounded-full flex items-center justify-center mx-auto mb-4"
               aria-hidden="true"
             >
               <svg

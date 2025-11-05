@@ -34,7 +34,7 @@ function Navbar() {
                 alt="hamburger icon"
                 width={16}
                 height={15}
-                className="logo"
+                className=""
               />
             </button>
           </div>
@@ -48,6 +48,7 @@ function Navbar() {
               alt="audiophile logo"
               width={143}
               height={25}
+              className="logo"
             />
           </Link>
 
