@@ -4,12 +4,10 @@ import { FaInstagram, FaXTwitter, FaFacebookF } from "react-icons/fa6";
 function Footer() {
   return (
     <footer className="bg-black text-white mt-auto relative">
-      {/* Orange line */}
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#d87d4a] lg:left-30 lg:transform-none"></div>
 
       <div className="wrapper py-12 pt-16">
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
-          {/* Brand and Navigation */}
           <div className="flex flex-col lg:flex-row lg:gap-32 lg:items-start">
             <div className="text-center md:text-left mb-8 lg:mb-0">
               <h6 className="text-sm font-bold mb-8">audiophile</h6>
@@ -24,7 +22,6 @@ function Footer() {
               </div>
             </div>
 
-            {/* Description */}
             <ul className="flex flex-col justify-center items-center text-center md:flex-row gap-4 lg:gap-8 text-sm font-semibold uppercase tracking-widest">
               <li>
                 <Link
@@ -62,7 +59,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div className="border-t border-white/20 mt-8 pt-8">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6">
             <p className="text-white/50 text-center lg:text-left">

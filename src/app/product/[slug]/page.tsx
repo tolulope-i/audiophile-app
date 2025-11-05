@@ -24,7 +24,7 @@ export default async function ProductPage({ params }: Props) {
         {/* <Link href={`/${product.category}`} className="text-gray-500 hover:text-orange-500">
           ← Back to {product.category}
         </Link> */}
-        <Link href={`/${product.category}`} className="text-gray-500 hover:text-orange-500">
+        <Link href={`/${product.category}`} className="text-gray-500 hover:text-[#d87d4a]">
           Go back
         </Link>
       </div>
@@ -73,7 +73,6 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Gallery - Fix image paths */}
       <div className="grid md:grid-cols-2 gap-4 mb-20">
         <div className="space-y-4">
           {product.gallery[0] && (
@@ -112,7 +111,6 @@ export default async function ProductPage({ params }: Props) {
         )}
       </div>
 
-      {/* You may also like */}
       <div className="text-center">
         <h3 className="mb-12">You may also like</h3>
         <div className="grid md:grid-cols-3 gap-8">

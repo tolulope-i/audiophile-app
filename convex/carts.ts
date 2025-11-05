@@ -13,21 +13,18 @@ export const saveCart = mutation({
     })),
   },
   handler: async (ctx, { sessionId, items }) => {
-    // Check if cart exists for this session
     const existing = await ctx.db
       .query('carts')
       .withIndex('by_session', (q) => q.eq('sessionId', sessionId))
       .first();
 
     if (existing) {
-      // Update existing cart
       await ctx.db.patch(existing._id, {
         items,
         updatedAt: new Date().toISOString(),
       });
       return existing._id;
     } else {
-      // Create new cart
       const cartId = await ctx.db.insert('carts', {
         sessionId,
         items,

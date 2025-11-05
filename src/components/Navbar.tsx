@@ -27,7 +27,6 @@ function Navbar() {
     <div className="bg-black">
       <nav className="wrapper">
         <div className="flex items-center justify-between py-4 border-b border-white/20">
-          {/* Mobile Menu Button */}
           <div className="lg:hidden">
             <button onClick={toggleNav} className="p-2" aria-label="Open menu">
               <Image
@@ -39,7 +38,6 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Logo */}
           <Link
             href="/"
             className="absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none lg:mr-auto"
@@ -52,7 +50,6 @@ function Navbar() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex flex-1 justify-center">
             <ul className="flex gap-8">
               <li>
@@ -90,7 +87,6 @@ function Navbar() {
             </ul>
           </div>
 
-          {/* Cart Button */}
           <div className="lg:ml-auto">
             <button
               aria-label="Open cart"
@@ -113,7 +109,6 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Navigation Menu */}
       {isNavOpen && (
         <div
           className="lg:hidden fixed inset-0 z-50 bg-black/50"
@@ -125,7 +120,7 @@ function Navbar() {
           >
             <div className="grid grid-cols-1 gap-4">
               <CategorySectionCard
-                imageSrc="/headphones.png"
+                imageSrc="/headphone1.png"
                 categoryName="Headphones"
                 linkUrl="/headphones"
               />

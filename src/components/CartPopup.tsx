@@ -95,7 +95,6 @@ export default function CartPopup() {
               ))}
             </ul>
 
-            {/* Full Order Summary */}
             <div className="space-y-3 mb-6">
               {/* <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Subtotal</span>

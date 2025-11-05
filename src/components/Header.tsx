@@ -10,7 +10,6 @@ export default function Header() {
 
   return (
     <header className="navbar relative bg-black">
-      {/* Hero Section */}
       <section className="wrapper hero-section">
         <div className="hero-content">
           <p className="title text-white/50">New product</p>
@@ -25,7 +24,7 @@ export default function Header() {
         </div>
         <div className="image-container">
           <Image
-            src="/image-headphones.png"
+            src="/desktop-hero-image-headphones.png"
             alt="headphones image"
             width={540}
             height={560}

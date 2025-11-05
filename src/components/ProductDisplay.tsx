@@ -4,7 +4,6 @@ export default function ProductDisplay() {
   return (
     <section className="product-display-section">
       <div className="products-grid">
-        {/* Product 1 - Full width */}
         <div className="product1">
           <div className="circle-container">
             <div className="circle circle-outer"></div>
@@ -30,7 +29,6 @@ export default function ProductDisplay() {
           </div>
         </div>
 
-        {/* Product 2 - Full width */}
         <div className="product2">
           <Image
             src="/bg-speaker.png"
@@ -46,9 +44,7 @@ export default function ProductDisplay() {
           </div>
         </div>
 
-        {/* Product 3 & 4 - Side by side on tablet/desktop */}
         <div className="product-pair">
-          {/* Product 3 */}
           <div className="product3">
             <Image
               src="/bg-earphones.png"
@@ -58,7 +54,6 @@ export default function ProductDisplay() {
             />
           </div>
 
-          {/* Product 4 */}
           <div className="product4">
             <div className="product3-content">
               <h2>YX1 Earphones</h2>
