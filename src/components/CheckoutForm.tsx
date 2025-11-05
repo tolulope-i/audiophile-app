@@ -21,6 +21,57 @@ type FormErrors = {
   [key in keyof FormData]?: string;
 };
 
+interface CheckoutResponse {
+  success: boolean;
+  orderId?: string;
+  message?: string;
+}
+
+const InputField = ({
+  id,
+  label,
+  type = "text",
+  placeholder,
+  value,
+  error,
+  onChange,
+}: {
+  id: keyof FormData;
+  label: string;
+  type?: string;
+  placeholder: string;
+  value: string;
+  error?: string;
+  onChange: (value: string) => void;
+}) => (
+  <div className={id === "address" ? "col-span-2" : ""}>
+    <label htmlFor={id} className="block text-sm font-semibold mb-1">
+      {label}
+    </label>
+
+    <input
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+        error
+          ? "border-red-500 focus:ring-red-200"
+          : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
+      }`}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : undefined}
+    />
+
+    {error && (
+      <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
+        {error}
+      </p>
+    )}
+  </div>
+);
+
 export default function CheckoutForm() {
   const { items, subtotal, clear } = useCart();
   const router = useRouter();
@@ -198,7 +249,7 @@ export default function CheckoutForm() {
         body: JSON.stringify(payload),
       });
 
-      const json = await res.json();
+      const json: CheckoutResponse = await res.json();
 
       if (!res.ok || !json.success) {
         throw new Error(json?.message || "Failed to place order");
@@ -220,51 +271,6 @@ export default function CheckoutForm() {
   const shipping = 50;
   const tax = Math.round(subtotal * 0.07 * 100) / 100;
   const grandTotal = subtotal + shipping + tax;
-
-  const InputField = ({
-    id,
-    label,
-    type = "text",
-    placeholder,
-    value,
-    error,
-    onChange,
-  }: {
-    id: keyof FormData;
-    label: string;
-    type?: string;
-    placeholder: string;
-    value: string;
-    error?: string;
-    onChange: (value: string) => void;
-  }) => (
-    <div className={id === "address" ? "col-span-2" : ""}>
-      <label htmlFor={id} className="block text-sm font-semibold mb-1">
-        {label}
-      </label>
-
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-          error
-            ? "border-red-500 focus:ring-red-200"
-            : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
-        }`}
-        aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : undefined}
-      />
-
-      {error && (
-        <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
-          {error}
-        </p>
-      )}
-    </div>
-  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8" noValidate>

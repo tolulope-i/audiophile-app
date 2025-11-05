@@ -44,7 +44,7 @@ export default function AddToCartClient({ product }: AddToCartClientProps) {
             price: product.price, 
             quantity: qty, 
             image: product.image 
-          });
+          } as const);
         }}
         className="cursor-pointer bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 px-6 font-semibold transition-colors"
       >
