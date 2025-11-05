@@ -254,6 +254,18 @@ export default function CheckoutForm() {
       if (!res.ok || !json.success) {
         throw new Error(json?.message || "Failed to place order");
       }
+
+      const orderData = {
+        orderId: json.orderId,
+        items,
+        subtotal,
+        shipping: 50,
+        taxes: Math.round(subtotal * 0.07 * 100) / 100,
+        grandTotal: subtotal + 50 + Math.round(subtotal * 0.07 * 100) / 100,
+      };
+
+      localStorage.setItem("lastOrder", JSON.stringify(orderData));
+
       router.push(`/confirmation/${json.orderId}`);
       clear();
     } catch (err) {
@@ -343,7 +355,6 @@ export default function CheckoutForm() {
             </div>
           </div>
           <div className="mt-4">
-
             <InputField
               id="country"
               label="Country"

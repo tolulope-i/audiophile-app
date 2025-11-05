@@ -35,6 +35,7 @@ export default function Confirmation({ params }: Props) {
   const [orderId, setOrderId] = useState<string>("");
   const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showAllItems, setShowAllItems] = useState(false);
 
   const shipping = 50;
   const tax = Math.round(subtotal * 0.07 * 100) / 100;
@@ -45,14 +46,21 @@ export default function Confirmation({ params }: Props) {
       const resolvedParams = await params;
       setOrderId(resolvedParams.id);
 
-      setOrderData({
-        orderId: resolvedParams.id,
-        items,
-        subtotal,
-        shipping,
-        taxes: tax,
-        grandTotal,
-      });
+      let order = null;
+      const saved = localStorage.getItem("lastOrder");
+      if (saved) {
+        order = JSON.parse(saved);
+      }
+      setOrderData(
+        order || {
+          orderId: resolvedParams.id,
+          items,
+          subtotal,
+          shipping,
+          taxes: tax,
+          grandTotal,
+        }
+      );
 
       setLoading(false);
     };
@@ -101,119 +109,103 @@ export default function Confirmation({ params }: Props) {
     );
   }
 
+  const itemsToShow = showAllItems
+    ? orderData.items
+    : orderData.items.slice(0, 1);
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="text-left mb-6">
-            <div
-              className="w-16 h-16 bg-[#d87d4a] rounded-full flex items-center justify-center mx-auto mb-4"
-              aria-hidden="true"
-            >
+    <div className="min-h-screen bg-black/50 flex items-center justify-center p-4">
+      <div className="w-full max-w-[540px]">
+        <div className="bg-white rounded-lg overflow-hidden">
+          <div className="p-8 md:p-12">
+            <div className="w-16 h-16 bg-[#d87d4a] rounded-full flex items-center justify-center mb-6">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                strokeWidth="3"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="3"
                   d="M5 13l4 4L19 7"
-                ></path>
+                />
               </svg>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Thank you for your order!
+            <h1 className="text-2xl md:text-3xl font-bold text-black uppercase mb-4 tracking-wide">
+              Thank you
+              <br />
+              for your order
             </h1>
-            <p className="text-gray-600 mb-2">
-              Order confirmed with ID:{" "}
-              <strong className="text-[#d87d4a]">{orderData.orderId}</strong>
-            </p>
-            <p className="text-gray-500 text-sm">
+
+            <p className="text-gray-500 text-sm mb-8">
               You will receive an email confirmation shortly.
             </p>
-          </div>
 
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+            <div className="grid md:grid-cols-2 rounded-lg overflow-hidden mb-8">
+              <div className="bg-[#f1f1f1] p-6">
+                <div className="space-y-4">
+                  {itemsToShow.map((item) => (
+                    <div key={item.id} className="flex items-center gap-4">
+                      <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center shrink-0">
+                        <Image
+                          src={item.image || "/placeholder.jpg"}
+                          alt={item.name}
+                          width={50}
+                          height={50}
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm uppercase truncate text-black">
+                          {item.name}
+                        </div>
+                        <div className="text-sm text-gray-500 font-bold">
+                          $ {item.price.toLocaleString()}
+                        </div>
+                      </div>
+                      <div className="text-sm text-gray-500 font-bold">
+                        x{item.quantity}
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-            <div className="space-y-3 mb-4">
-              {orderData.items.slice(0, 1).map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-3 flex-1">
-                    <div
-                      className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center"
-                      aria-hidden="true"
+                {orderData.items.length > 1 && (
+                  <div className="mt-4 pt-4 border-t border-gray-300">
+                    <button
+                      onClick={() => setShowAllItems(!showAllItems)}
+                      className="text-xs text-gray-500 hover:text-gray-700 font-bold w-full text-center"
                     >
-                      <Image
-                        src={item.image || "/placeholder.jpg"}
-                        alt={item.name}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-sm truncate">
-                        {item.name}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        ${item.price.toLocaleString()} × {item.quantity}
-                      </div>
-                    </div>
+                      {showAllItems ? (
+                        "View less"
+                      ) : (
+                        <>and {orderData.items.length - 1} other item(s)</>
+                      )}
+                    </button>
                   </div>
-                  <div className="font-semibold text-sm">
-                    ${(item.price * item.quantity).toLocaleString()}
-                  </div>
-                </div>
-              ))}
+                )}
+              </div>
 
-              {orderData.items.length > 1 && (
-                <div className="text-center text-sm text-gray-600 border-t pt-3">
-                  and {orderData.items.length - 1} other item(s)
+              <div className="bg-black text-white p-6 flex flex-col justify-end md:min-w-[200px]">
+                <div className="text-gray-400 text-sm uppercase mb-2 font-medium tracking-wider">
+                  Grand Total
                 </div>
-              )}
+                <div className="text-white text-lg font-bold">
+                  $ {orderData.grandTotal.toLocaleString()}
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span>${orderData.subtotal.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
-                <span>${orderData.shipping.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Tax</span>
-                <span>${orderData.taxes.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
-                <span>Grand Total</span>
-                <span className="text-[#d87d4a]">
-                  ${orderData.grandTotal.toLocaleString()}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
             <Link
               href="/"
-              className="inline-block w-full bg-[#d87d4a] hover:bg-[#fbaf85] text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-[#fbaf85]"
+              className="block w-full bg-[#d87d4a] hover:bg-[#fbaf85] text-white text-center py-4 px-6 font-bold text-sm uppercase tracking-wider transition-colors duration-200"
               onClick={() => clear()}
             >
               Back to Home
             </Link>
-            <p className="text-gray-500 text-sm mt-3">
-              Your cart will be cleared automatically in a few seconds...
-            </p>
           </div>
         </div>
       </div>
