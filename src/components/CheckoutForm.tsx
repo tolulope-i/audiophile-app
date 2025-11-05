@@ -73,7 +73,7 @@ const InputField = ({
 );
 
 export default function CheckoutForm() {
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal } = useCart();
   const router = useRouter();
 
   const [form, setForm] = useState<FormData>({
@@ -256,7 +256,7 @@ export default function CheckoutForm() {
       }
 
       router.push(`/confirmation/${json.orderId}`);
-      clear();
+      // clear();
     } catch (err) {
       const errorMessage =
         err instanceof Error
