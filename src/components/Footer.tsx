@@ -22,7 +22,7 @@ function Footer() {
               </div>
             </div>
 
-            <ul className="flex flex-col justify-center items-center text-center md:flex-row gap-4 lg:gap-8 text-sm font-semibold uppercase tracking-widest">
+            <ul className="flex flex-col justify-center items-center text-center md:flex-row md:justify-start gap-4 lg:gap-8 text-sm font-semibold uppercase tracking-widest">
               <li>
                 <Link
                   href="/"

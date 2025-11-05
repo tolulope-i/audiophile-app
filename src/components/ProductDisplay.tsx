@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function ProductDisplay() {
   return (
     <section className="product-display-section">
-      <div className="products-grid">
+      <div className="products-grid wrapper">
         <div className="product1">
           <div className="circle-container">
             <div className="circle circle-outer"></div>

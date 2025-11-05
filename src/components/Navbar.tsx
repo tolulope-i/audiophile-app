@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartProvider";
 import CartPopup from "./CartPopup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategorySectionCard from "./CategorySectionCard";
 
 function Navbar() {
@@ -15,13 +15,19 @@ function Navbar() {
     0
   );
 
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
+  const toggleNav = () => setIsNavOpen(!isNavOpen);
+  const closeNav = () => setIsNavOpen(false);
 
-  const closeNav = () => {
-    setIsNavOpen(false);
-  };
+  useEffect(() => {
+    if (isNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isNavOpen]);
 
   return (
     <div className="bg-black">
@@ -34,7 +40,6 @@ function Navbar() {
                 alt="hamburger icon"
                 width={16}
                 height={15}
-                className=""
               />
             </button>
           </div>
@@ -54,38 +59,16 @@ function Navbar() {
 
           <div className="hidden lg:flex flex-1 justify-center">
             <ul className="flex gap-8">
-              <li>
-                <Link
-                  href="/"
-                  className="text-white hover:text-[#D87D4A] transition-colors text-sm font-bold uppercase tracking-widest"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/headphones"
-                  className="text-white hover:text-[#D87D4A] transition-colors text-sm font-bold uppercase tracking-widest"
-                >
-                  Headphones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/speakers"
-                  className="text-white hover:text-[#D87D4A] transition-colors text-sm font-bold uppercase tracking-widest"
-                >
-                  Speakers
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/earphones"
-                  className="text-white hover:text-[#D87D4A] transition-colors text-sm font-bold uppercase tracking-widest"
-                >
-                  Earphones
-                </Link>
-              </li>
+              {["Home", "Headphones", "Speakers", "Earphones"].map((item) => (
+                <li key={item}>
+                  <Link
+                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    className="text-white hover:text-[#D87D4A] transition-colors text-sm font-bold uppercase tracking-widest"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -113,29 +96,27 @@ function Navbar() {
 
       {isNavOpen && (
         <div
-          className="lg:hidden fixed inset-0 z-50 bg-black/50"
+          className="lg:hidden fixed inset-0 z-50 bg-black/50 flex justify-center"
           onClick={closeNav}
         >
           <div
-            className="bg-white mt-20 rounded-b-2xl p-8 overflow-y-auto"
+            className="bg-white mt-20 rounded-b-2xl p-8 max-h-[70vh] overflow-y-auto w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="grid grid-cols-1 gap-4">
-              <CategorySectionCard
-                imageSrc="/headphone1.png"
-                categoryName="Headphones"
-                linkUrl="/headphones"
-              />
-              <CategorySectionCard
-                imageSrc="/speakers.png"
-                categoryName="Speakers"
-                linkUrl="/speakers"
-              />
-              <CategorySectionCard
-                imageSrc="/earphones.png"
-                categoryName="Earphones"
-                linkUrl="/earphones"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                { imageSrc: "/headphone1.png", categoryName: "Headphones", linkUrl: "/headphones" },
+                { imageSrc: "/speakers.png", categoryName: "Speakers", linkUrl: "/speakers" },
+                { imageSrc: "/earphones.png", categoryName: "Earphones", linkUrl: "/earphones" },
+              ].map(({ imageSrc, categoryName, linkUrl }) => (
+                <div key={categoryName} onClick={closeNav}>
+                  <CategorySectionCard
+                    imageSrc={imageSrc}
+                    categoryName={categoryName}
+                    linkUrl={linkUrl}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
