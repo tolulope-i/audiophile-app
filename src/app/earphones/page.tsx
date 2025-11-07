@@ -13,7 +13,7 @@ export default function HeadphonesPage() {
         <h2 className="text-4xl font-bold">Earphones</h2>
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-32 mb-20 wrapper">
+      <div className="max-w-6xl mx-auto space-y-32 mb-20 wrapper page">
         {list.map((product, index) => (
           <div
             key={product.id}

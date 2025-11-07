@@ -692,6 +692,10 @@ input[type="quantity"] {
   }
 
   @media (min-width: 1024px) {
+    .page{
+      padding: 0 24px !important;
+    }
+    
     .product1{
       flex-direction: row;
       text-align: left;
