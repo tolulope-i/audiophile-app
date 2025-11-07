@@ -8,13 +8,13 @@ export default function Advert() {
           <Image
             src="/advert-img.png"
             alt="Best Gear"
-            className="advert-img rounded-lg max-w-[327px] h-[227px] md:w-[689px] md:h-[300px] lg:max-w-[540px] lg:h-[440px]"
+            className="advert-img rounded-lg max-w-[327px] h-[227px] md:w-[689px] md:h-[300px] lg:max-w-[540px] lg:h-[400px]"
             width={600}
             height={600}
           />
         </div>
 
-        <div className="advert text-center max-w-[550px] lg:max-w-[573px] flex flex-col gap-6 lg:px-0 lg:text-left md:pt-6 md:px-4">
+        <div className="advert text-center max-w-[550px] lg:max-w-[573px] lg:min-w-[300px] flex flex-col gap-6 lg:px-0 lg:text-left md:pt-6 md:px-4">
           <h2 className="">
             Bringing you the <span>best</span> audio gear
           </h2>

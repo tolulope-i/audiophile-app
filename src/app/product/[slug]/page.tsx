@@ -19,7 +19,7 @@ export default async function ProductPage({ params }: Props) {
     return <div className="container mx-auto px-4 py-8">Product not found</div>;
 
   return (
-    <div className="wrapper py-20 md:px-4">
+    <div className="wrapper px-6 sm:px-8 md:px-10 lg:px-20 py-20">
       <div className="mb-8">
         {/* <Link href={`/${product.category}`} className="text-gray-500 hover:text-orange-500">
           ← Back to {product.category}

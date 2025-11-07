@@ -30,7 +30,7 @@ function Navbar() {
   }, [isNavOpen]);
 
   return (
-    <div className="bg-[#131313] navbar px-6">
+    <div className="bg-[#131313] navbar lg:px-6">
       <nav className="wrapper">
         <div className="flex items-center justify-between py-4 border-b border-white/20">
           <div className="lg:hidden">
@@ -100,7 +100,7 @@ function Navbar() {
           onClick={closeNav}
         >
           <div
-            className="bg-white mt-20 rounded-b-2xl p-8 max-h-[70vh] overflow-y-auto w-full"
+            className="bg-white mt-20 rounded-b-2xl p-8 max-h-[80vh] overflow-y-auto w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
