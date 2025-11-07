@@ -19,7 +19,7 @@ export default function ProductDisplay() {
           </div>
           <div className="product1-content">
             <h2>ZX9 Speaker</h2>
-            <p>
+            <p style={{ marginBottom: "30px" }}>
               Upgrade to premium speakers that are phenomenally built to deliver
               truly remarkable sound.
             </p>
@@ -34,6 +34,7 @@ export default function ProductDisplay() {
             src="/bg-speaker.png"
             className="product2-bg"
             alt="ZX7 Speaker background"
+            style={{ transform: "scaleX(-1)", objectPosition: "bottom" }}
             fill
           />
           <div className="product2-content">

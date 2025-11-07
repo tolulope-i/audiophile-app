@@ -30,7 +30,7 @@ function Navbar() {
   }, [isNavOpen]);
 
   return (
-    <div className="bg-black">
+    <div className="bg-[#131313] navbar px-6">
       <nav className="wrapper">
         <div className="flex items-center justify-between py-4 border-b border-white/20">
           <div className="lg:hidden">

@@ -2,6 +2,7 @@
 
 :root {
   --nav-bg: #0e0e0e;
+  --nav-bg: #131313;
   --primary: #d87d4a;
   --primary-light: #fbaf85;
   --bg-light: #f1f1f1;
@@ -33,7 +34,7 @@ h2 {
 h3 {
   font-family: var(--font-manrope);
   font-weight: 700;
-   font-size: clamp(1.5rem, 3vw + 0.5rem, 2rem); /* ~24px → 32px */
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2rem); /* ~24px → 32px */
   line-height: 1.2;
   letter-spacing: 1.14px;
   text-transform: uppercase;
@@ -139,10 +140,12 @@ span {
 .btn-tertiary {
   color: var(--white);
   background-color: var(--black);
+  border: 2px solid var(--black);
 }
 .btn-tertiary:hover {
   color: var(--black);
-  background-color: var(--white);
+  background-color: transparent;
+  border: 2px solid var(--black);
 }
 .btn-text {
   color: var(--black);
@@ -171,7 +174,7 @@ textarea {
   line-height: 100%;
   color: #cfcfcf;
   letter-spacing: -0.25px;
-  border: 1px solid #cfcfcf;
+  /* border: 1px solid #cfcfcf; */
   padding: 12px;
   border-radius: 8px;
 }
@@ -206,16 +209,14 @@ input[type="radio"] {
   width: 16px;
   height: 16px;
   border: 1px solid #cfcfcf;
-  border-radius: 50%;
-  appearance: none;
-  -webkit-appearance: none;
+  appearance: radio !important;
+  -webkit-appearance: radio !important;
+  -moz-appearance: radio !important;
+  accent-color: var(--primary);
   cursor: pointer;
   position: relative;
 }
-input[type="radio"]:checked {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
+
 input[type="quantity"] {
   width: 129px;
   height: 48px;
@@ -369,7 +370,7 @@ input[type="quantity"] {
   }
   @media (min-width: 1024px) {
     .category-section {
-      padding: 80px 0;
+      padding: 120px 24px;
     }
   }
   @media (min-width: 1280px) {
@@ -397,9 +398,9 @@ input[type="quantity"] {
   }
 
   @media (min-width: 1024px) {
-    .wrapper {
+    /* .wrapper {
       padding: 0 20px;
-    }
+    } */
     .hero-section {
       background-image: none !important;
       min-height: 560px;
@@ -618,7 +619,7 @@ input[type="quantity"] {
   }
   @media (min-width: 768px) {
     .product-display-section {
-      padding: 80px 40px;
+      padding: 60px 24px;
     }
 
     .products-grid {
@@ -683,7 +684,7 @@ input[type="quantity"] {
 
   @media (min-width: 1024px) {
     .product-display-section {
-      padding: 120px 0;
+      padding: 80px 24px;
       max-width: 1110px;
       margin: 0 auto;
     }
@@ -735,6 +736,9 @@ input[type="quantity"] {
       max-width: 350px;
       height: 386px;
     }
+    .advert-section{
+      padding-bottom: 80px;
+    }
   }
 
   @media (min-width: 1280px) {
@@ -762,8 +766,8 @@ input[type="quantity"] {
 
 .advert-img {
   width: 100%;
-  border-radius: 8px;
-  object-fit: contain;
+  border-radius: 6px !important;
+  /* object-fit: contain; */
   max-width: 540px;
 }
 

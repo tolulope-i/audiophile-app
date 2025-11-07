@@ -45,9 +45,19 @@ const InputField = ({
   onChange: (value: string) => void;
 }) => (
   <div className={id === "address" ? "col-span-2" : ""}>
-    <label htmlFor={id} className="block text-sm font-semibold mb-1">
-      {label}
-    </label>
+    <div className="flex justify-between">
+      <label htmlFor={id} className="block text-sm font-semibold mb-1">
+        {label}
+      </label>
+      {error && (
+        <figcaption
+          id={`${id}-error`}
+          className="mt-1 text-[12px] text-red-600"
+        >
+          {error}
+        </figcaption>
+      )}
+    </div>
 
     <input
       id={id}
@@ -55,25 +65,19 @@ const InputField = ({
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+      className={`w-full p-3 border rounded-lg focus:outline-none transition-colors ${
         error
-          ? "border-red-500 focus:ring-red-200"
-          : "border-gray-300 focus:border-[#d87d4a] focus:ring-[#fbaf85]"
+          ? "border-red-500 focus:border-red-500 border-2"
+          : "border-gray-300 hover:border-[#d87d4a] focus:border-[#d87d4a]"
       }`}
       aria-invalid={!!error}
       aria-describedby={error ? `${id}-error` : undefined}
     />
-
-    {error && (
-      <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
-        {error}
-      </p>
-    )}
   </div>
 );
 
 export default function CheckoutForm() {
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal } = useCart();
   const router = useRouter();
 
   const [form, setForm] = useState<FormData>({
@@ -267,7 +271,7 @@ export default function CheckoutForm() {
       localStorage.setItem("lastOrder", JSON.stringify(orderData));
 
       router.push(`/confirmation/${json.orderId}`);
-      clear();
+      // clear();
     } catch (err) {
       const errorMessage =
         err instanceof Error
@@ -296,7 +300,7 @@ export default function CheckoutForm() {
             <InputField
               id="name"
               label="Name"
-              placeholder="Alexei Ward"
+              placeholder="Tolulope Ilesanmi"
               value={form.name}
               error={errors.name}
               onChange={(value) => handleChange("name", value)}
@@ -305,7 +309,7 @@ export default function CheckoutForm() {
               id="email"
               label="Email Address"
               type="email"
-              placeholder="alexei@mail.com"
+              placeholder="tolu@gmail.com"
               value={form.email}
               error={errors.email}
               onChange={(value) => handleChange("email", value)}
@@ -314,7 +318,7 @@ export default function CheckoutForm() {
               id="phone"
               label="Phone Number"
               type="tel"
-              placeholder="+1 202-555-0136"
+              placeholder="+1 234 567 890"
               value={form.phone}
               error={errors.phone}
               onChange={(value) => handleChange("phone", value)}

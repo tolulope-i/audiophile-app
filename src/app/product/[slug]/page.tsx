@@ -19,17 +19,17 @@ export default async function ProductPage({ params }: Props) {
     return <div className="container mx-auto px-4 py-8">Product not found</div>;
 
   return (
-    <div className="wrapper py-20 px-10">
+    <div className="wrapper py-20 md:px-4">
       <div className="mb-8">
         {/* <Link href={`/${product.category}`} className="text-gray-500 hover:text-orange-500">
           ← Back to {product.category}
         </Link> */}
-        <Link href={`/${product.category}`} className="text-gray-500 hover:text-[#d87d4a]">
+        <Link href={`/${product.category}`} className="text-gray-500 hover:text-[#d87d4a] go-back">
           Go back
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-12 mb-20">
+      <div className="grid md:grid-cols-2 gap-12 mb-20 items-center">
         <div className="product-box flex items-center justify-center p-8">
           <Image
             src={product.image}

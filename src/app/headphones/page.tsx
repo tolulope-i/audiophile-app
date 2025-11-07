@@ -10,11 +10,11 @@ export default function HeadphonesPage() {
 
   return (
     <div className="">
-      <div className="bg-black text-white py-16 text-center mb-16">
+      <div className="bg-[#131313] text-white py-16 text-center mb-16">
         <h2 className="text-4xl font-bold">Headphones</h2>
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-32 mb-20">
+      <div className="max-w-6xl mx-auto space-y-32 mb-20 wrapper">
         {list.map((product, index) => (
           <div
             key={product.id}
@@ -31,10 +31,10 @@ export default function HeadphonesPage() {
               />
             </div>
 
-            <div className="flex-1 text-center lg:text-left">
+            <div className="flex-1 text-center lg:text-left px-6">
               {product.new && <span className="category">New Product</span>}
               <h2 className="my-4">{product.name}</h2>
-              <p className="text-gray-600 mb-6">{product.description}</p>
+              <p className="text-gray-600 mb-6 ">{product.description}</p>
               <a
                 href={`/product/${product.slug}`}
                 className="btn btn-primary p-3"

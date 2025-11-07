@@ -2,7 +2,7 @@ import CategorySectionCard from "./CategorySectionCard";
 
 export default function CategorySection() {
     return (
-        <section className="category-section wrapper grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+        <section className="category-section wrapper grid grid-cols-1 md:grid-cols-3 gap-8" style={{ marginTop: "" }}>
             <CategorySectionCard
                 imageSrc="/headphone1.png"
                 categoryName="Headphones"  
